@@ -8,7 +8,7 @@ import Card from '../components/Card'
 export default class Root extends Component {
   render () {
     return (
-      <Scene altspace="usePixelScale: false; verticalAlign: middle;" vr-mode-ui="enabled: false;">
+      <Scene altspace="usePixelScale: false; verticalAlign: bottom;" vr-mode-ui="enabled: false;">
         <a-assets>
           <img id="green-light" src="images/green_light.png" />
           <img id="yellow-light" src="images/yellow_light.png" />
