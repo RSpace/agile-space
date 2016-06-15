@@ -1,0 +1,49 @@
+{
+  "name": "agile-space",
+  "version": "1.0.0",
+  "description": "Agile tools for AltspaceVR",
+  "dependencies": {
+    "aframe": "0.2.0",
+    "aframe-altspace-component": "https://github.com/AltspaceVR/aframe-altspace-component.git#d9de7e7a515e5fb3c07fb0514e70798a2a1d245a",
+    "aframe-react": "2.0.0",
+    "babel-polyfill": "^6.9.0",
+    "immutable": "^3.8.1",
+    "react": "^0.14.3",
+    "react-dom": "^0.14.3",
+    "react-redux": "^4.4.5",
+    "redux": "^3.5.2"
+  },
+  "scripts": {
+    "build": "webpack",
+    "serve": "twistd -n web --path ./src -p 8081",
+    "serve-js": "webpack-dev-server --content-base src --progress --watch --history-api-fallback --inline --hot --host localhost --port 8082"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rspace/agile-space.git"
+  },
+  "keywords": [
+    "aframe",
+    "react",
+    "vr",
+    "a-frame",
+    "mozvr",
+    "webvr"
+  ],
+  "author": "Casper Fabricius <me@casperfabricius.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rspace/agile-space/issues"
+  },
+  "homepage": "https://github.com/rspace/agile-space#readme",
+  "devDependencies": {
+    "babel-core": "^6.9.0",
+    "babel-loader": "^6.2.4",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-react": "^6.5.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "babel-runtime": "^6.6.1",
+    "webpack": "^1.13.1",
+    "webpack-dev-server": "^1.14.1"
+  }
+}
