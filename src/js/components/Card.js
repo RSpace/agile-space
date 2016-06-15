@@ -16,8 +16,14 @@ export default class Card extends Component {
         material={material}
         position={position}
         rotation={rotation}
+        onClick={this.onClick.bind(this)}
       ></Entity>
     )
+  }
+
+  onClick () {
+    if (this.props.selected) { return }
+    this.props.onResponse(this.props.color)
   }
 
   getSource () {
