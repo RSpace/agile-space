@@ -6,6 +6,8 @@ import { respond, nextArea } from '../store/actions'
 import Table from '../components/Table'
 import Card from '../components/Card'
 
+const ANGLE_STEP = 45
+
 class GameManager extends Component {
   render () {
     return (
@@ -14,15 +16,19 @@ class GameManager extends Component {
 
         <Card type="area" title={this.props.currentArea} />
 
-        { COLORS.map(function(color) {
-          let isSelected = (this.props.selectedColor === color)
-          return (
-            <Card type="response" color={color}
-                  selected={isSelected} key={color}
-                  onResponse={this.props.onResponse}
-            />
-          )
-        }.bind(this))}
+        { [...Array(360/ANGLE_STEP)].map((x, i) =>
+          <Entity rotation={[0, i*ANGLE_STEP, 0]}>
+            { COLORS.map(function(color) {
+              let isSelected = (this.props.selectedColor === color)
+              return (
+                <Card type="response" color={color}
+                      selected={isSelected} key={color}
+                      onResponse={this.props.onResponse}
+                />
+              )
+            }.bind(this))}
+          </Entity>
+        )}
       </Entity>
     )
   }

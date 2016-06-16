@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
-import { Entity } from 'aframe-react'
+import { Animation, Entity } from 'aframe-react'
 
 export default class Card extends Component {
   render () {
     let geometry = { primitive: 'plane' }
     Object.assign(geometry, this.getDimensions())
 
-    let material = {src: this.getSource()}
+    let material = {src: this.getSource(), side: 'double'}
     let position = this.getPosition()
     let rotation = this.getRotation()
 
@@ -17,7 +17,9 @@ export default class Card extends Component {
         position={position}
         rotation={rotation}
         onClick={this.onClick.bind(this)}
-      ></Entity>
+      >
+        {this.getAnimation()}
+      </Entity>
     )
   }
 
@@ -39,7 +41,7 @@ export default class Card extends Component {
   getDimensions () {
     switch(this.props.type) {
       case 'response':
-        return { width: 0.5, height: 0.75 }
+        return { width: 0.25, height: 0.375 }
       case 'area':
         return { width: 1, height: 1.5 }
     }
@@ -48,37 +50,53 @@ export default class Card extends Component {
   getPosition () {
     switch(this.props.type) {
       case 'response':
-        if (this.props.selected) {
-          return '0 1.1 1.5'
-        } else {
-          let x;
-          switch(this.props.color) {
-            case 'green':
-              x = -0.75
-              break
-            case 'yellow':
-              x = 0
-              break
-            case 'red':
-              x = 0.75
-              break
-          }
-          return `${x} 1.5 0`
+        let x, y
+        switch(this.props.color) {
+          case 'green':
+            x = -0.35
+            break
+          case 'yellow':
+            x = 0
+            break
+          case 'red':
+            x = 0.35
+            break
         }
+        if (this.props.selected) {
+          y = 1.3
+        } else {
+          y = 1
+        }
+        return `${x} ${y} 1.75`
       case 'area':
-        return "0 3 0"
+        return "0 2 0"
     }
   }
 
   getRotation () {
     switch(this.props.type) {
       case 'response':
-        if(this.props.selected) {
+        if(!this.props.selected) {
           return '-90 0 0'
         }
     }
 
     return '0 0 0'
+  }
+
+  getAnimation () {
+    switch(this.props.type) {
+      case 'area':
+        return (
+          <Animation attribute="rotation"
+                   dur="20000"
+                   easing="linear"
+                   fill="forwards"
+                   to="0 360 0"
+                   repeat="indefinite"></Animation>
+        )
+    }
+    return null
   }
 
 }
