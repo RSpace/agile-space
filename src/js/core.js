@@ -1,4 +1,5 @@
-import {Map} from 'immutable'
+import { Map } from 'immutable'
+import { setState } from './store/sync'
 
 export const AREAS = ['delivering-value']
 export const COLORS = ['green', 'yellow', 'red']
@@ -8,7 +9,13 @@ export const INITIAL_STATE = Map({
   selectedColor: null
 })
 
-export function respondWith(state, color) {
+export function setResponse(state, color) {
+  let newState = state.set('selectedColor', color)
+  setState(newState)
+  return newState
+}
+
+export function receiveResponse(state, color, playerId) {
   return state.set('selectedColor', color)
 }
 

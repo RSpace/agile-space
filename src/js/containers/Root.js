@@ -13,7 +13,7 @@ export default class Root extends Component {
         <Scene altspace="usePixelScale: false; verticalAlign: bottom;" vr-mode-ui="enabled: false;">
           <Assets />
 
-          <a-entity position="0 1.8 5">
+          <a-entity position="0 1.8 3">
             <a-camera><a-cursor></a-cursor></a-camera>
           </a-entity>
 

@@ -6,12 +6,15 @@
     "aframe": "0.2.0",
     "aframe-altspace-component": "https://github.com/AltspaceVR/aframe-altspace-component.git#d9de7e7a515e5fb3c07fb0514e70798a2a1d245a",
     "aframe-react": "2.0.0",
+    "altspace": "^0.13.1",
     "babel-polyfill": "^6.9.0",
     "immutable": "^3.8.1",
     "react": "^0.14.3",
     "react-dom": "^0.14.3",
     "react-redux": "^4.4.5",
-    "redux": "^3.5.2"
+    "redux": "^3.5.2",
+    "redux-thunk": "^2.1.0",
+    "three": "^0.73.0"
   },
   "scripts": {
     "build": "webpack",

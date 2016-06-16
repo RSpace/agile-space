@@ -24,8 +24,14 @@ export default class Card extends Component {
   }
 
   onClick () {
-    if (this.props.selected) { return }
-    this.props.onResponse(this.props.color)
+    switch(this.props.type) {
+      case 'response':
+        if (this.props.selected) { return }
+        this.props.onResponse(this.props.color)
+        break
+      case 'area':
+        return
+    }
   }
 
   getSource () {

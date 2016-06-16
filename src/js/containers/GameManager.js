@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Entity } from 'aframe-react'
 import { connect } from 'react-redux'
 import { COLORS } from '../core'
-import { respond, nextArea } from '../store/actions'
+import { setResponse, nextArea } from '../store/actions'
 import Table from '../components/Table'
 import Card from '../components/Card'
 
@@ -17,7 +17,7 @@ class GameManager extends Component {
         <Card type="area" title={this.props.currentArea} />
 
         { [...Array(360/ANGLE_STEP)].map((x, i) =>
-          <Entity rotation={[0, i*ANGLE_STEP, 0]}>
+          <Entity rotation={[0, i*ANGLE_STEP, 0]} key={`cards-${i}`}>
             { COLORS.map(function(color) {
               let isSelected = (this.props.selectedColor === color)
               return (
@@ -45,7 +45,7 @@ function mapStateToProps(state) {
 // Which action creators does it want to receive by props?
 function mapDispatchToProps(dispatch) {
   return {
-    onResponse: (color) => dispatch(respond(color)),
+    onResponse: (color) => dispatch(setResponse(color)),
     nextArea: () => dispatch(nextArea())
   }
 }
