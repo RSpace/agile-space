@@ -11,7 +11,8 @@ delete AFRAME.components['look-at-altspace-user']
  */
 AFRAME.registerComponent('look-at-altspace-user', {
   schema: {
-    enabled: { default: true }
+    enabled: { default: true },
+    yMode: { default: false } // Only rotate around y-axis
   },
 
   init: function () {
@@ -40,17 +41,35 @@ AFRAME.registerComponent('look-at-altspace-user', {
       return
     }
 
-    var target3D = this.target3D
+    let target3D = this.target3D
     if (target3D) {
-      if (altspace.inClient) {
-        return this.el.object3D.lookAt(target3D.position)
+      this.vector.setFromMatrixPosition(target3D.matrixWorld)
+
+      if (this.data.yMode) {
+        let yRotationAngle = (this.calculateAngle(this.vector)*-1)+90
+        let rotation = this.el.getComputedAttribute('rotation')
+        this.el.setAttribute('rotation', {
+          x: rotation.x,
+          y: yRotationAngle,
+          z: rotation.z
+        })
       } else {
-        return this.el.object3D.lookAt(this.vector.setFromMatrixPosition(target3D.matrixWorld))
+        if (altspace.inClient) {
+          return this.el.object3D.lookAt(target3D.position)
+        } else {
+          return this.el.object3D.lookAt(this.vector)
+        }
       }
     }
   },
 
   beginTracking: function (targetEl) {
     this.target3D = targetEl.object3D
+  },
+
+  calculateAngle: function(vector) {
+    let xDiff = vector.x - 0; // Table center is at (0, 0)
+    let zDiff = vector.z - 0;
+    return Math.atan2(zDiff, xDiff) * 180 / Math.PI
   }
 })
