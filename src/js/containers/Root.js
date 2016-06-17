@@ -3,7 +3,7 @@ require('aframe-altspace-component')
 import React, { Component } from 'react'
 import { Scene } from 'aframe-react'
 import { Provider } from 'react-redux'
-import Assets from './Assets'
+import Assets from '../components/Assets'
 import GameManager from './GameManager'
 
 export default class Root extends Component {
