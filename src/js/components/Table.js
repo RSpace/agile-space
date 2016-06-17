@@ -7,7 +7,7 @@ export default class Table extends Component {
       <Entity
         geometry={{primitive: 'cylinder', height: 0.9, radius: 2 }}
         position="0 0.5 0"
-        material={{color: '#663300'}}
+        material={{color: '#663300', src: '#table-texture'}}
       ></Entity>
     )
   }
