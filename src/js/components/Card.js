@@ -31,6 +31,7 @@ export default class Card extends Component {
         this.props.onResponse(this.props.color)
         break
       case 'area':
+        this.props.onNextArea()
         return
     }
   }

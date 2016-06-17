@@ -14,7 +14,7 @@ class GameManager extends Component {
       <Entity>
         <Table />
 
-        <Card type="area" title={this.props.currentArea} />
+        <Card type="area" title={this.props.currentArea} onNextArea={this.props.onNextArea} />
 
         { [...Array(360/ANGLE_STEP)].map((x, i) =>
           <Entity rotation={[0, i*ANGLE_STEP, 0]} key={`cards-${i}`}>
@@ -46,7 +46,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     onResponse: (color) => dispatch(setResponse(color)),
-    nextArea: () => dispatch(nextArea())
+    onNextArea: () => dispatch(nextArea())
   }
 }
 

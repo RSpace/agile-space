@@ -1,4 +1,8 @@
+import { saveResponse, saveArea } from './sync'
+import { getNextArea } from '../core'
+
 export function setResponse(color) {
+  saveResponse(color)
   return { type: 'SET_RESPONSE', color }
 }
 
@@ -7,7 +11,9 @@ export function receiveResponse(color, playerId) {
 }
 
 export function nextArea() {
-  return { type: 'NEXT_AREA' }
+  let area = getNextArea()
+  saveArea(area)
+  return { type: 'NEXT_AREA', area }
 }
 
 export function receiveArea(area) {

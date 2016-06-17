@@ -6,8 +6,14 @@ const finalCreateStore = compose(
   applyMiddleware(thunk)
 )(createStore)
 
+let store
+
+export function getStore () {
+  return store
+}
+
 export default function configureStore(initialState) {
-  const store = finalCreateStore(rootReducer, initialState)
+  store = finalCreateStore(rootReducer, initialState)
 
   if (module.hot) {
     // Enable Webpack hot module replacement for reducers
