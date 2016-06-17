@@ -11,7 +11,7 @@ delete AFRAME.components['look-at-altspace-user']
  */
 AFRAME.registerComponent('look-at-altspace-user', {
   schema: {
-    default: '',
+    enabled: { default: true }
   },
 
   init: function () {
@@ -36,6 +36,10 @@ AFRAME.registerComponent('look-at-altspace-user', {
   },
 
   tick: function (t) {
+    if (this.data.enabled === false ) {
+      return
+    }
+
     var target3D = this.target3D
     if (target3D) {
       if (altspace.inClient) {
