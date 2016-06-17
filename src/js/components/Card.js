@@ -1,3 +1,4 @@
+require('../aframe/look-at-altspace-user-component')
 import React, { Component } from 'react'
 import { Animation, Entity } from 'aframe-react'
 
@@ -17,8 +18,8 @@ export default class Card extends Component {
         position={position}
         rotation={rotation}
         onClick={this.onClick.bind(this)}
+        {...this.getAdditionalAttributes()}
       >
-        {this.getAnimation()}
       </Entity>
     )
   }
@@ -90,19 +91,13 @@ export default class Card extends Component {
     return '0 0 0'
   }
 
-  getAnimation () {
+  getAdditionalAttributes () {
     switch(this.props.type) {
       case 'area':
-        return (
-          <Animation attribute="rotation"
-                   dur="20000"
-                   easing="linear"
-                   fill="forwards"
-                   to="0 360 0"
-                   repeat="indefinite"></Animation>
-        )
+        return {"look-at-altspace-user": true}
+        break
     }
-    return null
+    return {}
   }
 
 }
