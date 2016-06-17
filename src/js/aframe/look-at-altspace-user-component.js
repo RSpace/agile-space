@@ -38,7 +38,11 @@ AFRAME.registerComponent('look-at-altspace-user', {
   tick: function (t) {
     var target3D = this.target3D
     if (target3D) {
-      return this.el.object3D.lookAt(target3D.position)
+      if (altspace.inClient) {
+        return this.el.object3D.lookAt(target3D.position)
+      } else {
+        return this.el.object3D.lookAt(this.vector.setFromMatrixPosition(target3D.matrixWorld))
+      }
     }
   },
 
