@@ -18,10 +18,13 @@ AFRAME.registerComponent('look-at-altspace-user', {
   init: function () {
     this.target3D = null
     this.vector = new THREE.Vector3()
+    this.sceneObject3d = this.el.sceneEl.object3D
 
     if (altspace.inClient) {
       altspace.getThreeJSTrackingSkeleton().then(function(skeleton)
       {
+        skeleton.name = "altvr-skeleton"
+        this.sceneObject3d.add(skeleton)
         this.target3D = skeleton.getJoint("Eye")
       }.bind(this))
     } else {
@@ -59,6 +62,11 @@ AFRAME.registerComponent('look-at-altspace-user', {
         } else {
           return this.el.object3D.lookAt(this.vector)
         }
+      }
+    } else {
+      let skeleton = this.sceneObject3d.getObjectByName("altvr-skeleton")
+      if (skeleton) {
+        this.target3D = skeleton.getJoint("Eye")
       }
     }
   },
