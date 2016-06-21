@@ -1,11 +1,11 @@
-require('../aframe/look-at-altspace-user-component')
 import React, { Component } from 'react'
 import { Entity } from 'aframe-react'
 import { connect } from 'react-redux'
-import { COLORS, getMySelectedColor } from '../core'
+import { getMySelectedColor, getOtherUsers } from '../core'
 import { setResponse, nextArea } from '../store/actions'
 import Table from '../components/Table'
 import AreaCard from '../components/AreaCard'
+import MyResponseCards from '../components/MyResponseCards'
 import ResponseCard from '../components/ResponseCard'
 
 class GameManager extends Component {
@@ -13,21 +13,21 @@ class GameManager extends Component {
     return (
       <Entity>
         <Table />
-
         <AreaCard title={this.props.currentArea} onNextArea={this.props.onNextArea} />
+        <MyResponseCards selectedColor={this.props.selectedColor} onResponse={this.props.onResponse} />
 
-        <Entity look-at-altspace-user={{yMode: true}}>
-          { COLORS.map(function(color) {
-            let isSelected = (this.props.selectedColor === color)
+        { this.props.otherUsers.valueSeq().map(function(user) {
+          if (user.color) {
             return (
-              <ResponseCard
-                color={color}
-                selected={isSelected} key={color}
-                onResponse={this.props.onResponse}
-              />
+              <Entity rotation={[0, user.tableAngle, 0]} key={user.id}>
+                <ResponseCard
+                  color={user.color}
+                  selected={true}
+                />
+              </Entity>
             )
-          }.bind(this))}
-        </Entity>
+          }
+        }.bind(this))}
 
       </Entity>
     )
@@ -38,7 +38,8 @@ class GameManager extends Component {
 function mapStateToProps(state) {
   return {
     currentArea: state.get('currentArea'),
-    selectedColor: getMySelectedColor(state)
+    selectedColor: getMySelectedColor(state),
+    otherUsers: getOtherUsers(state)
   }
 }
 

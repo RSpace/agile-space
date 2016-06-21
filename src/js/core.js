@@ -1,4 +1,4 @@
-import { Map } from 'immutable'
+import { Map, Set } from 'immutable'
 import altspace from 'altspace'
 import { saveUser } from './store/sync'
 import { getStore } from './store/store'
@@ -61,6 +61,10 @@ export function setArea(state, area) {
   return state.set('currentArea', area)
 }
 
+export function setUser(state, playerId, name, tableAngle) {
+  return state.setIn(['users', playerId], { name, tableAngle })
+}
+
 let playerInfo
 export function getPlayerInfo() {
   return new Promise(function(resolve, reject) {
@@ -109,4 +113,28 @@ export function getInstanceId() {
 export function getMySelectedColor(state) {
   let currentArea = state.get('currentArea')
   return state.getIn(['areas', currentArea, playerInfo.id])
+}
+
+export function getOtherUsers(state) {
+  let currentArea = state.get('currentArea')
+
+  let allUsers = state.get('users')
+  let otherUsers = allUsers.filterNot(keyIn(playerInfo.id))
+
+  let userData = otherUsers.map((user) => {
+    return {
+      name: user.name,
+      tableAngle: user.tableAngle,
+      color: state.getIn(['areas', currentArea, user.id])
+    }
+  })
+
+  return userData
+}
+
+function keyIn(/*...keys*/) {
+  var keySet = Set(arguments);
+  return function (v, k) {
+    return keySet.has(k);
+  }
 }

@@ -1,5 +1,5 @@
 import altspace from 'altspace'
-import { receiveResponse, receiveArea } from './actions'
+import { receiveResponse, receiveArea, receiveUser } from './actions'
 import { getCurrentArea, getInstanceId } from '../core'
 
 const FIREBASE_REF = altspace.utilities.sync.getInstance({
@@ -32,8 +32,13 @@ export function saveResponse(color) {
   }
 }
 
-export function saveArea(area) {
-  FIREBASE_REF.update({ currentArea: area})
+export function saveArea(area, onComplete) {
+  FIREBASE_REF.update({ currentArea: area}, onComplete)
+}
+
+export function saveTableAngle(tableAngle) {
+  let usersRef = FIREBASE_REF.child('users')
+  usersRef.child(myPlayerId).update({ tableAngle })
 }
 
 export function initRead(store) {
@@ -48,7 +53,13 @@ export function initRead(store) {
   let initialArea = getCurrentArea()
   listenToNewArea(store, null, initialArea)
 
-  FIREBASE_REF.child('currentArea').on('value', onCurrentAreaChanged.bind(this, store))
+  // Ensure we have a current area in Firebase, then listen for changes to it
+  ensureCurrentArea(initialArea).then(() => {
+    FIREBASE_REF.child('currentArea').on('value', onCurrentAreaChanged.bind(this, store))
+  })
+
+  // We need to know where users are
+  listenToUsers(store)
 }
 
 function onSelectedColorsReceived(store, snapshot) {
@@ -59,7 +70,6 @@ function onSelectedColorsReceived(store, snapshot) {
 
   let responsesMap = new Map(Object.entries(responsesObject))
   responsesMap.forEach((color, playerId) => {
-    console.log(playerId, color)
     store.dispatch(receiveResponse(color, playerId))
   })
 }
@@ -68,6 +78,24 @@ function onSelectedColorChanged(store, snapshot) {
   let playerId = snapshot.key()
   let color = snapshot.val()
   store.dispatch(receiveResponse(color, playerId))
+}
+
+function onUsersReceived(store, snapshot) {
+  let usersObject = snapshot.val()
+  if (!usersObject) {
+    return
+  }
+
+  let usersMap = new Map(Object.entries(usersObject))
+  usersMap.forEach((playerId, attributes) => {
+    store.dispatch(receiveUser(playerId, attributes.name, attributes.tableAngle))
+  })
+}
+
+function onUserChanged(store, snapshot) {
+  let playerId = snapshot.key()
+  let attributes = snapshot.val()
+  store.dispatch(receiveUser(playerId, attributes.name, attributes.tableAngle))
 }
 
 function onCurrentAreaChanged(store, snapshot) {
@@ -89,4 +117,25 @@ function listenToNewArea(store, oldArea, newArea) {
   newAreaRef.once('value', onSelectedColorsReceived.bind(this, store))
   newAreaRef.on('child_added', onSelectedColorChanged.bind(this, store))
   newAreaRef.on('child_changed', onSelectedColorChanged.bind(this, store))
+}
+
+function ensureCurrentArea(initialArea) {
+  return new Promise(function(resolve, reject) {
+    FIREBASE_REF.child('currentArea').once('value', (snapshot) => {
+      if (snapshot.exists()) {
+        resolve()
+      } else {
+        saveArea(initialArea, () => {
+          resolve()
+        })
+      }
+    })
+  })
+}
+
+function listenToUsers(store) {
+  let usersRef = FIREBASE_REF.child('users')
+  usersRef.once('value', onUsersReceived.bind(this, store))
+  usersRef.on('child_added', onUserChanged.bind(this, store))
+  usersRef.on('child_changed', onUserChanged.bind(this, store))
 }

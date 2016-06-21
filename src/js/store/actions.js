@@ -19,3 +19,7 @@ export function nextArea() {
 export function receiveArea(area) {
   return { type: 'RECEIVE_AREA', area }
 }
+
+export function receiveUser(playerId, name, tableAngle) {
+  return { type: 'RECEIVE_USER', playerId, name, tableAngle }
+}

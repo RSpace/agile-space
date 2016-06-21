@@ -1,4 +1,4 @@
-import {INITIAL_STATE, setResponse, setArea} from '../core'
+import {INITIAL_STATE, setResponse, setArea, setUser} from '../core'
 
 export default function rootReducer(state = INITIAL_STATE, action) {
   switch(action.type) {
@@ -10,6 +10,8 @@ export default function rootReducer(state = INITIAL_STATE, action) {
       return setArea(state, action.area)
     case 'RECEIVE_AREA':
       return setArea(state, action.area)
+    case 'RECEIVE_USER':
+      return setUser(state, action.playerId, action.name, action.tableAngle)
   }
   return state
 }
