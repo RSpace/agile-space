@@ -2,7 +2,7 @@ require('../aframe/look-at-altspace-user-component')
 import React, { Component } from 'react'
 import { Entity } from 'aframe-react'
 import { connect } from 'react-redux'
-import { COLORS } from '../core'
+import { COLORS, getMySelectedColor } from '../core'
 import { setResponse, nextArea } from '../store/actions'
 import Table from '../components/Table'
 import AreaCard from '../components/AreaCard'
@@ -38,7 +38,7 @@ class GameManager extends Component {
 function mapStateToProps(state) {
   return {
     currentArea: state.get('currentArea'),
-    selectedColor: state.get('selectedColor'),
+    selectedColor: getMySelectedColor(state)
   }
 }
 
