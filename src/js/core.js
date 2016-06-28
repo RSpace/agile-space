@@ -121,11 +121,11 @@ export function getOtherUsers(state) {
   let allUsers = state.get('users')
   let otherUsers = allUsers.filterNot(keyIn(playerInfo.id))
 
-  let userData = otherUsers.map((user) => {
+  let userData = otherUsers.map((userAttributes, userId) => {
     return {
-      name: user.name,
-      tableAngle: user.tableAngle,
-      color: state.getIn(['areas', currentArea, user.id])
+      name: userAttributes.name,
+      tableAngle: userAttributes.tableAngle || 0,
+      color: state.getIn(['areas', currentArea, userId])
     }
   })
 

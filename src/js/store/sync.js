@@ -87,8 +87,8 @@ function onUsersReceived(store, snapshot) {
   }
 
   let usersMap = new Map(Object.entries(usersObject))
-  usersMap.forEach((playerId, attributes) => {
-    store.dispatch(receiveUser(playerId, attributes.name, attributes.tableAngle))
+  usersMap.forEach((attributes, playerId) => {
+    store.dispatch(receiveUser(playerId, attributes.name, attributes.tableAngle || 0))
   })
 }
 
