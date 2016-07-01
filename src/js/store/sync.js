@@ -55,9 +55,9 @@ export function initRead(store) {
   let initialArea = getCurrentArea()
 
   // Ensure we have a current area in Firebase, then listen for changes to it
-  ensureCurrentArea(initialArea).then(() => {
+  ensureCurrentArea(store, initialArea).then((currentArea) => {
     FIREBASE_REF.child('currentArea').on('value', onCurrentAreaChanged.bind(this, store))
-    listenToNewArea(store, null, initialArea)
+    listenToNewArea(store, null, currentArea)
 
     // We need to know where users are
     listenToUsers(store)
@@ -121,14 +121,17 @@ function listenToNewArea(store, oldArea, newArea) {
   newAreaRef.on('child_changed', onSelectedColorChanged.bind(this, store))
 }
 
-function ensureCurrentArea(initialArea) {
+function ensureCurrentArea(store, initialArea) {
   return new Promise(function(resolve, reject) {
     FIREBASE_REF.child('currentArea').once('value', (snapshot) => {
       if (snapshot.exists()) {
-        resolve()
+        let newArea = snapshot.val()
+        store.dispatch(receiveArea(newArea))
+        resolve(newArea)
       } else {
+        store.dispatch(receiveArea(initialArea))
         saveArea(initialArea, () => {
-          resolve()
+          resolve(initialArea)
         })
       }
     })
