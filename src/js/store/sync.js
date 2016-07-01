@@ -3,6 +3,8 @@ import { receiveResponse, receiveArea, receiveUser } from './actions'
 import { getCurrentArea, getInstanceId } from '../core'
 
 const FIREBASE_REF = altspace.utilities.sync.getInstance({
+    // Use own Firebase database
+    baseRefUrl: 'https://agile-space.firebaseio.com/',
     // All sync instances with the same instance id will share
     // properties.
     instanceId: getInstanceId(),
@@ -51,15 +53,15 @@ export function initRead(store) {
 
   // Needed to get data for the first area
   let initialArea = getCurrentArea()
-  listenToNewArea(store, null, initialArea)
 
   // Ensure we have a current area in Firebase, then listen for changes to it
   ensureCurrentArea(initialArea).then(() => {
     FIREBASE_REF.child('currentArea').on('value', onCurrentAreaChanged.bind(this, store))
-  })
+    listenToNewArea(store, null, initialArea)
 
-  // We need to know where users are
-  listenToUsers(store)
+    // We need to know where users are
+    listenToUsers(store)
+  })
 }
 
 function onSelectedColorsReceived(store, snapshot) {
