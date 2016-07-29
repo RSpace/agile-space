@@ -3,7 +3,19 @@ import altspace from 'altspace'
 import { saveUser } from './store/sync'
 import { getStore } from './store/store'
 
-export const AREAS = ['delivering-value', 'fun', 'health-of-codebase', 'easy-to-release']
+export const AREAS = [
+  'delivering-value',
+  'fun',
+  'health-of-codebase',
+  'easy-to-release',
+  'learning',
+  'mission',
+  'pawns-or-players',
+  'speed',
+  'suitable-process',
+  'support',
+  'teamwork'
+]
 export const COLORS = ['green', 'yellow', 'red']
 
 export const INITIAL_STATE = Map({
