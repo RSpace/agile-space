@@ -1,29 +1,40 @@
 import altspace from 'altspace'
-import { receiveResponse, receiveArea, receiveUser } from './actions'
+import { setFullStateFromSnapshot, receiveResponse, receiveArea, receiveUser } from './actions'
 import { getCurrentArea, getInstanceId } from '../core'
 
-const FIREBASE_REF = altspace.utilities.sync.getInstance({
-    // Use own Firebase database
-    baseRefUrl: 'https://agile-space.firebaseio.com/',
-    // All sync instances with the same instance id will share
-    // properties.
-    instanceId: getInstanceId(),
-    // This helps to prevent collisions.
-    authorId: 'com.immersionftw.agile-space'
-})
+let firebaseConnection, firebaseAppInstance
+function initFirebaseConnection() {
+  return new Promise(function(resolve, reject) {
+    // See http://altspacevr.github.io/AltspaceSDK/doc/sync.html#connect
+    altspace.utilities.sync.connect({
+        // Use own Firebase database
+        baseRefUrl: 'https://agile-space.firebaseio.com/',
+        // All sync instances with the same instance id will share
+        // properties.
+        // instanceId: getInstanceId(),
+        // This helps to prevent collisions.
+        authorId: 'immersionftw.com',
+        appId: 'agile-space'
+    }).then((connection) => {
+      // See http://altspacevr.github.io/AltspaceSDK/doc/sync-Connection.html
+      firebaseConnection = connection
+      firebaseAppInstance = connection.instance
+      resolve(connection)
+    })
+  })
+}
 
 let myPlayerId
-
 export function saveUser(playerId, name) {
   myPlayerId = playerId
-  let usersRef = FIREBASE_REF.child('users')
+  let usersRef = firebaseAppInstance.child('users')
   usersRef.child(playerId).update({ name })
 }
 
 export function saveResponse(color) {
   if (myPlayerId) {
     let currentArea = getCurrentArea()
-    let areasRef = FIREBASE_REF.child('areas')
+    let areasRef = firebaseAppInstance.child('areas')
 
     let response = {}
     response[myPlayerId] = color
@@ -35,32 +46,44 @@ export function saveResponse(color) {
 }
 
 export function saveArea(area, onComplete) {
-  FIREBASE_REF.update({ currentArea: area}, onComplete)
+  firebaseAppInstance.update({ currentArea: area}, onComplete)
 }
 
 export function saveTableAngle(tableAngle) {
-  let usersRef = FIREBASE_REF.child('users')
+  let usersRef = firebaseAppInstance.child('users')
   usersRef.child(myPlayerId).update({ tableAngle })
 }
 
 export function initRead(store) {
-  // Debugging
-  FIREBASE_REF.on("value", function(snapshot) {
-    console.log(snapshot.val());
-  }, function (errorObject) {
-    console.log("The read failed: " + errorObject.code);
-  });
+  return new Promise(function(resolve, reject) {
+    initFirebaseConnection().then(() => {
+      // Debugging
+      firebaseAppInstance.on("value", function(snapshot) {
+        console.log(snapshot.val());
+      }, function (errorObject) {
+        console.log("The read failed: " + errorObject.code);
+      });
 
-  // Needed to get data for the first area
-  let initialArea = getCurrentArea()
+      // Initial state from Firebase
+      firebaseAppInstance.once("value", (snapshot) => {
+        store.dispatch(setFullStateFromSnapshot(snapshot.val()))
 
-  // Ensure we have a current area in Firebase, then listen for changes to it
-  ensureCurrentArea(store, initialArea).then((currentArea) => {
-    FIREBASE_REF.child('currentArea').on('value', onCurrentAreaChanged.bind(this, store))
-    listenToNewArea(store, null, currentArea)
+        // Needed to get data for the first area
+        let initialArea = getCurrentArea()
 
-    // We need to know where users are
-    listenToUsers(store)
+        // Ensure we have a current area in Firebase, then listen for changes to it
+        ensureCurrentArea(store, initialArea).then((currentArea) => {
+          firebaseAppInstance.child('currentArea').on('value', onCurrentAreaChanged.bind(this, store))
+          listenToNewArea(store, null, currentArea)
+
+          // We need to know where users are
+          listenToUsers(store)
+
+          // All done with initialization
+          resolve(store)
+        })
+      })
+    })
   })
 }
 
@@ -110,12 +133,12 @@ function onCurrentAreaChanged(store, snapshot) {
 function listenToNewArea(store, oldArea, newArea) {
   // Unsubscribe all listeners on old area
   if (oldArea) {
-    let oldAreaRef = FIREBASE_REF.child('areas').child(oldArea)
+    let oldAreaRef = firebaseAppInstance.child('areas').child(oldArea)
     oldAreaRef.off()
   }
 
   // Subscribe to events on new area
-  let newAreaRef = FIREBASE_REF.child('areas').child(newArea)
+  let newAreaRef = firebaseAppInstance.child('areas').child(newArea)
   newAreaRef.once('value', onSelectedColorsReceived.bind(this, store))
   newAreaRef.on('child_added', onSelectedColorChanged.bind(this, store))
   newAreaRef.on('child_changed', onSelectedColorChanged.bind(this, store))
@@ -123,7 +146,7 @@ function listenToNewArea(store, oldArea, newArea) {
 
 function ensureCurrentArea(store, initialArea) {
   return new Promise(function(resolve, reject) {
-    FIREBASE_REF.child('currentArea').once('value', (snapshot) => {
+    firebaseAppInstance.child('currentArea').once('value', (snapshot) => {
       if (snapshot.exists()) {
         let newArea = snapshot.val()
         store.dispatch(receiveArea(newArea))
@@ -139,7 +162,7 @@ function ensureCurrentArea(store, initialArea) {
 }
 
 function listenToUsers(store) {
-  let usersRef = FIREBASE_REF.child('users')
+  let usersRef = firebaseAppInstance.child('users')
   usersRef.once('value', onUsersReceived.bind(this, store))
   usersRef.on('child_added', onUserChanged.bind(this, store))
   usersRef.on('child_changed', onUserChanged.bind(this, store))

@@ -1,4 +1,4 @@
-import { Map, Set } from 'immutable'
+import { Map, Set, fromJS } from 'immutable'
 import altspace from 'altspace'
 import { saveUser } from './store/sync'
 import { getStore } from './store/store'
@@ -16,6 +16,19 @@ export const AREAS = [
   'support',
   'teamwork'
 ]
+export const AREA_NAMES = {
+  'delivering-value': 'Delivering Value',
+  'fun': 'Fun',
+  'health-of-codebase': 'Health of Codebase',
+  'easy-to-release': 'Easy to release',
+  'learning': 'Learning',
+  'mission': 'Mission',
+  'pawns-or-players': 'Pawns or Players',
+  'speed': 'Speed',
+  'suitable-process': 'Suitable Process',
+  'support': 'Support',
+  'teamwork': 'Teamwork'
+}
 export const COLORS = ['green', 'yellow', 'red']
 
 export const INITIAL_STATE = Map({
@@ -44,6 +57,10 @@ export const INITIAL_STATE = Map({
     }
   }
 } */
+
+export function setFullStateFromSnapshot(state, snapshot) {
+  return state.merge(fromJS(snapshot))
+}
 
 export function setResponse(state, color, playerId) {
   let currentArea = state.get('currentArea')

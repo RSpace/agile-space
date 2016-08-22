@@ -1,6 +1,10 @@
 import { saveResponse, saveArea } from './sync'
 import { getNextArea } from '../core'
 
+export function setFullStateFromSnapshot(snapshot) {
+  return { type: 'SET_INITIAL_STATE', snapshot }
+}
+
 export function setResponse(color) {
   saveResponse(color)
   return { type: 'SET_RESPONSE', color }

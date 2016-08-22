@@ -7,9 +7,10 @@ import { INITIAL_STATE, getPlayerInfo } from './core'
 import { initRead, saveUser } from './store/sync'
 
 const store = configureStore(INITIAL_STATE)
-initRead(store)
 
-getPlayerInfo().then((playerInfo) => {
+Promise.all([initRead(store), getPlayerInfo()]).then((values) => {
+  let store, playerInfo
+  [store, playerInfo] = values
   saveUser(playerInfo.id, playerInfo.name)
 
   render(

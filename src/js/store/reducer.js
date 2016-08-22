@@ -1,7 +1,9 @@
-import {INITIAL_STATE, setResponse, setArea, setUser} from '../core'
+import {INITIAL_STATE, setFullStateFromSnapshot, setResponse, setArea, setUser} from '../core'
 
 export default function rootReducer(state = INITIAL_STATE, action) {
   switch(action.type) {
+    case 'SET_INITIAL_STATE':
+      return setFullStateFromSnapshot(state, action.snapshot)
     case 'SET_RESPONSE':
       return setResponse(state, action.color)
     case 'RECEIVE_RESPONSE':
