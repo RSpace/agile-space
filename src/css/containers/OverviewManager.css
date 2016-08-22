@@ -1,0 +1,14 @@
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
+}
+
+.areaCol {
+  width: 200px;
+}
+
+.row {
+  height: 60px;
+  border-bottom: 1px solid #bbb;
+}
