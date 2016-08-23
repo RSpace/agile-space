@@ -3,6 +3,8 @@ import { connect } from 'react-redux'
 import { AREAS, AREA_NAMES } from '../core'
 import styles from '../../css/containers/OverviewManager.css'
 
+const SORT_ORDER = ['green', 'yellow', 'red']
+
 class OverviewManager extends Component {
   render () {
     return (
@@ -15,7 +17,7 @@ class OverviewManager extends Component {
                 <td>
                   { this.getResponses(area).map((color, userId) => {
                     return (
-                      <img key={userId} src={`images/response_cards/${color}_light.png`} height="50" />
+                      <img key={userId} src={`images/lights/${color}.png`} className={styles.colorImage} />
                     )
                   })}
                 </td>
@@ -30,7 +32,10 @@ class OverviewManager extends Component {
   getResponses (area) {
     let responses = this.props.areas.get(area)
     if (responses) {
-      return responses.valueSeq()
+      let seq = responses.valueSeq()
+      return seq.sort((a, b) => {
+        return SORT_ORDER.indexOf(a) - SORT_ORDER.indexOf(b)
+      })
     } else {
       return []
     }
