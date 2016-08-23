@@ -1,6 +1,6 @@
 import altspace from 'altspace'
 import { setFullStateFromSnapshot, receiveResponse, receiveArea, receiveUser } from './actions'
-import { getCurrentArea, getInstanceId } from '../core'
+import { getCurrentArea } from '../core'
 
 let firebaseConnection, firebaseAppInstance
 function initFirebaseConnection() {
@@ -9,9 +9,6 @@ function initFirebaseConnection() {
     altspace.utilities.sync.connect({
         // Use own Firebase database
         baseRefUrl: 'https://agile-space.firebaseio.com/',
-        // All sync instances with the same instance id will share
-        // properties.
-        // instanceId: getInstanceId(),
         // This helps to prevent collisions.
         authorId: 'immersionftw.com',
         appId: 'agile-space'

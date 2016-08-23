@@ -122,23 +122,6 @@ export function getPlayerInfo() {
   })
 }
 
-let instanceId
-export function getInstanceId() {
-  if (instanceId) {
-    return instanceId
-  }
-
-  let hash = window.location.hash.split("#")[1]
-  if (hash) {
-    instanceId = hash
-  } else {
-    instanceId = ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g,a=>(a^Math.random()*16>>a/4).toString(16))
-    location.href = "#" + instanceId
-  }
-
-  return instanceId
-}
-
 export function getMySelectedColor(state) {
   let currentArea = state.get('currentArea')
   return state.getIn(['areas', currentArea, playerInfo.id])
