@@ -12,7 +12,7 @@ class OverviewManager extends Component {
         <tbody>
           { AREAS.map((area) => {
             return (
-              <tr key={area} className={styles.row}>
+              <tr key={area} className={this.props.currentArea == area ? styles.rowActive : styles.rowInactive}>
                 <th className={styles.areaCol}>{AREA_NAMES[area]}</th>
                 <td>
                   { this.getResponses(area).map((color, userId) => {

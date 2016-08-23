@@ -16,8 +16,17 @@
   height: 45px;
 }
 
-.row:nth-child(odd) {
+.rowInactive {
+  composes: row;
+}
+
+.rowInactive:nth-child(odd) {
   background-color: #eee;
+}
+
+.rowActive {
+    composes: row;
+    background-color: #FFFACD;
 }
 
 .colorImage {
