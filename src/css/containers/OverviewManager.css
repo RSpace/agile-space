@@ -29,6 +29,10 @@
     background-color: #FFFACD;
 }
 
+.rowInactive .areaCol {
+  cursor: pointer;
+}
+
 .colorImage {
   height: 35px;
   padding: 0px 5px;

@@ -20,6 +20,10 @@ export function nextArea() {
   return { type: 'NEXT_AREA', area }
 }
 
+export function setArea(area) {
+  return { type: 'SET_AREA', area }
+}
+
 export function receiveArea(area) {
   return { type: 'RECEIVE_AREA', area }
 }

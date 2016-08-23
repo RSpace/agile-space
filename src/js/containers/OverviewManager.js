@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { AREAS, AREA_NAMES } from '../core'
+import { setArea } from '../store/actions'
 import styles from '../../css/containers/OverviewManager.css'
 
 const SORT_ORDER = ['green', 'yellow', 'red']
@@ -12,8 +13,10 @@ class OverviewManager extends Component {
         <tbody>
           { AREAS.map((area) => {
             return (
-              <tr key={area} className={this.props.currentArea == area ? styles.rowActive : styles.rowInactive}>
-                <th className={styles.areaCol}>{AREA_NAMES[area]}</th>
+              <tr key={area} className={this.props.currentArea == area ? styles.rowActive : styles.rowInactive} onClick={this.onAreaColClicked.bind(this, area)}>
+                <th className={styles.areaCol}>
+                  {AREA_NAMES[area]}
+                </th>
                 <td>
                   { this.getResponses(area).map((color, userId) => {
                     return (
@@ -40,6 +43,11 @@ class OverviewManager extends Component {
       return []
     }
   }
+
+  onAreaColClicked (area) {
+    if (this.props.currentArea == area) { return }
+    this.props.onSetArea(area)
+  }
 }
 
 // Which part of the Redux global state does our component want to receive as props?
@@ -52,7 +60,9 @@ function mapStateToProps(state) {
 
 // Which action creators does it want to receive by props?
 function mapDispatchToProps(dispatch) {
-  return {}
+  return {
+    onSetArea: (area) => dispatch(setArea(area))
+  }
 }
 
 export default connect(
