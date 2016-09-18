@@ -6,6 +6,10 @@ The app consists of two parts: The main 3D part which is loaded in a 3D placehol
 
 A-Frame and React is used for rendering and interaction, Redux for statekeeping and Firebase for persistence and syncronization.
 
+## Details
+
+This app is meant to evolve into a full suite of tools to support remote agile teams using AltspaceVR. This first iteration consists of a specific retrospective activity called the [Squad Health Check Model](https://labs.spotify.com/2014/09/16/squad-health-check-model/) (click link to learn more).
+
 ## Development
 
 ### Installation
