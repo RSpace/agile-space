@@ -15,6 +15,8 @@ export default class Assets extends Component {
             <img id={area} key={area} src={`images/area_cards/${area}.png`} />
           )
         })}
+        <img id="blank-card" src="images/area_cards/blank.png" />
+        <a-mixin id="card-text" bmfont-text="width: 500;" scale="0.3 0.3 0.3"></a-mixin>
       </a-assets>
     )
   }

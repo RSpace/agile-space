@@ -30,9 +30,11 @@ export const AREA_NAMES = {
   'teamwork': 'Teamwork'
 }
 export const COLORS = ['green', 'yellow', 'red']
+const VALID_GAME_STATES = ['intro', 'running', 'ended']
 
 export const INITIAL_STATE = Map({
-  currentArea: AREAS[0],
+  gameState: VALID_GAME_STATES[0],
+  currentArea: null,
   areas: Map({}),
   users: Map({}),
   selectedColor: null
@@ -67,6 +69,12 @@ export function setResponse(state, color, playerId) {
   return state.setIn(['areas', currentArea, playerId], color)
 }
 
+export function getGameState() {
+  let store = getStore()
+  let state = store.getState()
+  return state.get('gameState')
+}
+
 export function getCurrentArea() {
   let store = getStore()
   let state = store.getState()
@@ -81,6 +89,14 @@ export function getNextArea() {
     index = 0
   }
   return AREAS[index]
+}
+
+export function setGameState(state, gameState) {
+  if (!VALID_GAME_STATES.includes(gameState)) {
+    console.error('Attempted to set invalid game state "' + gameState + '"')
+    return state
+  }
+  return state.set('gameState', gameState)
 }
 
 export function setArea(state, area) {

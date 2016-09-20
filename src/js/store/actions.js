@@ -1,4 +1,4 @@
-import { saveResponse, saveArea } from './sync'
+import { saveResponse, saveArea, saveGameState } from './sync'
 import { getNextArea } from '../core'
 
 export function setFullStateFromSnapshot(snapshot) {
@@ -30,4 +30,13 @@ export function receiveArea(area) {
 
 export function receiveUser(playerId, name, tableAngle) {
   return { type: 'RECEIVE_USER', playerId, name, tableAngle }
+}
+
+export function receiveGameState(gameState) {
+  return { type: 'RECEIVE_GAME_STATE', gameState }
+}
+
+export function startGame() {
+  saveGameState('running')
+  return { type: 'START_GAME' }
 }

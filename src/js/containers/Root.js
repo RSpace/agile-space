@@ -1,5 +1,6 @@
 require('aframe')
 require('aframe-altspace-component')
+require('aframe-bmfont-text-component')
 import url from 'url'
 import React, { Component } from 'react'
 import { Scene } from 'aframe-react'

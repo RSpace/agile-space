@@ -1,6 +1,6 @@
 import altspace from 'altspace'
-import { setFullStateFromSnapshot, receiveResponse, receiveArea, receiveUser } from './actions'
-import { getCurrentArea } from '../core'
+import { setFullStateFromSnapshot, receiveResponse, receiveArea, receiveUser, receiveGameState } from './actions'
+import { getGameState, getCurrentArea } from '../core'
 
 let firebaseConnection, firebaseAppInstance
 function initFirebaseConnection() {
@@ -42,6 +42,10 @@ export function saveResponse(color) {
   }
 }
 
+export function saveGameState(gameState, onComplete) {
+  firebaseAppInstance.update({ gameState: gameState}, onComplete)
+}
+
 export function saveArea(area, onComplete) {
   firebaseAppInstance.update({ currentArea: area}, onComplete)
 }
@@ -65,13 +69,18 @@ export function initRead(store) {
       firebaseAppInstance.once("value", (snapshot) => {
         store.dispatch(setFullStateFromSnapshot(snapshot.val()))
 
-        // Needed to get data for the first area
-        let initialArea = getCurrentArea()
+        // Get current state and listen to changes to it
+        let gameState = getGameState()
 
-        // Ensure we have a current area in Firebase, then listen for changes to it
-        ensureCurrentArea(store, initialArea).then((currentArea) => {
-          firebaseAppInstance.child('currentArea').on('value', onCurrentAreaChanged.bind(this, store))
-          listenToNewArea(store, null, currentArea)
+        ensureGameState(store, gameState).then((gameState) => {
+          firebaseAppInstance.child('gameState').on('value', onGameStateChanged.bind(this, store))
+
+          // If game is running, listen current area
+          if (gameState == 'running') {
+            firebaseAppInstance.child('currentArea').on('value', onCurrentAreaChanged.bind(this, store))
+            let currentArea = getCurrentArea()
+            listenToNewArea(store, null, currentArea)
+          }
 
           // We need to know where users are
           listenToUsers(store)
@@ -120,6 +129,11 @@ function onUserChanged(store, snapshot) {
   store.dispatch(receiveUser(playerId, attributes.name, attributes.tableAngle))
 }
 
+function onGameStateChanged(store, snapshot) {
+  let newGameState = snapshot.val()
+  store.dispatch(receiveGameState(newGameState))
+}
+
 function onCurrentAreaChanged(store, snapshot) {
   let oldArea = getCurrentArea()
   let newArea = snapshot.val()
@@ -141,17 +155,17 @@ function listenToNewArea(store, oldArea, newArea) {
   newAreaRef.on('child_changed', onSelectedColorChanged.bind(this, store))
 }
 
-function ensureCurrentArea(store, initialArea) {
+function ensureGameState(store, initialGameState) {
   return new Promise(function(resolve, reject) {
-    firebaseAppInstance.child('currentArea').once('value', (snapshot) => {
+    firebaseAppInstance.child('gameState').once('value', (snapshot) => {
       if (snapshot.exists()) {
-        let newArea = snapshot.val()
-        store.dispatch(receiveArea(newArea))
-        resolve(newArea)
+        let gameState = snapshot.val()
+        store.dispatch(receiveGameState(gameState))
+        resolve(gameState)
       } else {
-        store.dispatch(receiveArea(initialArea))
-        saveArea(initialArea, () => {
-          resolve(initialArea)
+        store.dispatch(receiveGameState(initialGameState))
+        saveGameState(initialGameState, () => {
+          resolve(initialGameState)
         })
       }
     })
