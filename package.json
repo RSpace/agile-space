@@ -5,6 +5,7 @@
   "dependencies": {
     "aframe": "0.2.0",
     "aframe-altspace-component": "https://github.com/AltspaceVR/aframe-altspace-component.git#d9de7e7a515e5fb3c07fb0514e70798a2a1d245a",
+    "aframe-bmfont-text-component": "0.1.2",
     "aframe-react": "2.0.0",
     "altspace": "^0.16.3",
     "babel-polyfill": "^6.9.0",
