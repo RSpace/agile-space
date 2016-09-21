@@ -9,6 +9,7 @@ import Assets from '../components/Assets'
 import GameManager from './GameManager'
 import OverviewManager from './OverviewManager'
 import DevTools from './DevTools'
+import altspace from 'altspace'
 
 export default class Root extends Component {
   render () {
@@ -43,7 +44,7 @@ export default class Root extends Component {
   }
 
   renderDevTools () {
-    if ("development" === process.env.NODE_ENV) {
+    if ("development" === process.env.NODE_ENV && !altspace.inClient) {
       return (
         <DevTools />
       )
