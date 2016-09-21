@@ -8,19 +8,23 @@ import { Provider } from 'react-redux'
 import Assets from '../components/Assets'
 import GameManager from './GameManager'
 import OverviewManager from './OverviewManager'
+import DevTools from './DevTools'
 
 export default class Root extends Component {
   render () {
     return (
       <Provider store={this.props.store}>
-        { url.parse(window.location.href, true).query['overview'] ? this.renderOverviewManager() : this.renderGameManager() }
+        <div>
+          { url.parse(window.location.href, true).query['overview'] ? this.renderOverviewManager() : this.renderGameManager() }
+          { this.renderDevTools() }
+        </div>
       </Provider>
     )
   }
 
   renderGameManager () {
     return (
-      <Scene altspace="usePixelScale: false; verticalAlign: bottom;" vr-mode-ui="enabled: false;">
+      <Scene embedded={"development" === process.env.NODE_ENV} altspace="usePixelScale: false; verticalAlign: bottom;" vr-mode-ui="enabled: false;">
         <Assets />
 
         <a-entity position="0 1.8 3">
@@ -36,5 +40,15 @@ export default class Root extends Component {
     return (
       <OverviewManager />
     )
+  }
+
+  renderDevTools () {
+    if ("development" === process.env.NODE_ENV) {
+      return (
+        <DevTools />
+      )
+    } else {
+      return null
+    }
   }
 }
