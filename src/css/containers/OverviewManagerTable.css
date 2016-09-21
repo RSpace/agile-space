@@ -1,9 +1,10 @@
 .table {
   composes: default-font from "../typography.css";
-  width: 100%;
+  width: 50%;
   border-collapse: collapse;
   font-size: 20px;
   background-color: #fff;
+  float: left;
 }
 
 .areaCol {

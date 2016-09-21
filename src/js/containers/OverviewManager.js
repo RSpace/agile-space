@@ -9,26 +9,23 @@ const SORT_ORDER = ['green', 'yellow', 'red']
 
 class OverviewManager extends Component {
   render () {
-    return this.renderOverviewState()
+    return (
+      <div>
+        { this.renderOverviewTable () }
+        { this.renderInstructions () }
+      </div>
+    )
   }
 
-  renderOverviewState() {
-    switch(this.props.gameState) {
-      case 'intro':
-        return this.renderIntro()
-      case 'running':
-      case 'ended':
-        return this.renderOverviewTable()
-      default:
-        throw 'Unknown game state: ' + this.props.gameState
-    }
-  }
-
-  renderIntro () {
+  renderInstructions () {
     return (
       <div className={introStyles.container}>
-        <h1 className={introStyles.headline}>Team Health Check activity instructions</h1>
-        <img src="images/mockups/instructions.png" className={introStyles.mockup} />
+        <div className={introStyles.inner}>
+          <h1>Introduction to this activity</h1>
+          <p>This retrospective activity helps your team assess their current situation and identify areas where they can improve. The activity goes through a number of areas, and for each area, each team member picks a green, yellow or red light.</p>
+          <p>Some or all team members then explain why they picked the response they did. This is repeated for each area, and usually wrapped up by looking for the "worst" areas to take immediate action on.</p>
+          <img className={introStyles.responseCardsMockup} src="images/mockups/response_cards_intro.png" />
+        </div>
       </div>
     )
   }

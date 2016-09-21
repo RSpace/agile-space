@@ -2,9 +2,15 @@
   composes: default-font from "../typography.css";
   color: #fff;
   background-color: #3e3e40;
+  width: 50%;
+  float: right;
+}
+
+.inner {
   padding: 0 30px;
 }
 
-.mockup {
-  height: 1000px;
+.responseCardsMockup {
+  width: 90%;
 }
+
