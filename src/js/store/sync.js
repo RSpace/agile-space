@@ -71,15 +71,18 @@ export function initRead(store) {
 
         // Get current state and listen to changes to it
         let gameState = getGameState()
-
         ensureGameState(store, gameState).then((gameState) => {
           firebaseAppInstance.child('gameState').on('value', onGameStateChanged.bind(this, store))
 
+          // Listen to changes on the current area
+          firebaseAppInstance.child('currentArea').on('value', onCurrentAreaChanged.bind(this, store))
+
           // If game is running, listen current area
           if (gameState == 'running') {
-            firebaseAppInstance.child('currentArea').on('value', onCurrentAreaChanged.bind(this, store))
             let currentArea = getCurrentArea()
-            listenToNewArea(store, null, currentArea)
+            if (currentArea) {
+              listenToNewArea(store, null, currentArea)
+            }
           }
 
           // We need to know where users are
@@ -148,11 +151,13 @@ function listenToNewArea(store, oldArea, newArea) {
     oldAreaRef.off()
   }
 
-  // Subscribe to events on new area
-  let newAreaRef = firebaseAppInstance.child('areas').child(newArea)
-  newAreaRef.once('value', onSelectedColorsReceived.bind(this, store))
-  newAreaRef.on('child_added', onSelectedColorChanged.bind(this, store))
-  newAreaRef.on('child_changed', onSelectedColorChanged.bind(this, store))
+  // Subscribe to events on new area if we have one
+  if (newArea) {
+    let newAreaRef = firebaseAppInstance.child('areas').child(newArea)
+    newAreaRef.once('value', onSelectedColorsReceived.bind(this, store))
+    newAreaRef.on('child_added', onSelectedColorChanged.bind(this, store))
+    newAreaRef.on('child_changed', onSelectedColorChanged.bind(this, store))
+  }
 }
 
 function ensureGameState(store, initialGameState) {

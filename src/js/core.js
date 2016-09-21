@@ -100,9 +100,6 @@ export function setGameState(state, gameState) {
 }
 
 export function setArea(state, area) {
-  if (!area) {
-    area = AREAS[0] // Always default to first area
-  }
   return state.set('currentArea', area)
 }
 
