@@ -2,25 +2,51 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { AREAS, AREA_NAMES } from '../core'
 import { setArea } from '../store/actions'
-import styles from '../../css/containers/OverviewManager.css'
+import introStyles from '../../css/containers/OverviewManagerIntro.css'
+import tableStyles from '../../css/containers/OverviewManagerTable.css'
 
 const SORT_ORDER = ['green', 'yellow', 'red']
 
 class OverviewManager extends Component {
   render () {
+    return this.renderOverviewState()
+  }
+
+  renderOverviewState() {
+    switch(this.props.gameState) {
+      case 'intro':
+        return this.renderIntro()
+      case 'running':
+      case 'ended':
+        return this.renderOverviewTable()
+      default:
+        throw 'Unknown game state: ' + this.props.gameState
+    }
+  }
+
+  renderIntro () {
     return (
-      <table className={styles.table}>
+      <div className={introStyles.container}>
+        <h1 className={introStyles.headline}>Team Health Check activity instructions</h1>
+        <img src="images/mockups/instructions.png" className={introStyles.mockup} />
+      </div>
+    )
+  }
+
+  renderOverviewTable () {
+    return (
+      <table className={tableStyles.table}>
         <tbody>
           { AREAS.map((area) => {
             return (
-              <tr key={area} className={this.props.currentArea == area ? styles.rowActive : styles.rowInactive} onClick={this.onAreaColClicked.bind(this, area)}>
-                <th className={styles.areaCol}>
+              <tr key={area} className={this.props.currentArea == area ? tableStyles.rowActive : tableStyles.rowInactive} onClick={this.onAreaColClicked.bind(this, area)}>
+                <th className={tableStyles.areaCol}>
                   {AREA_NAMES[area]}
                 </th>
                 <td>
                   { this.getResponses(area).map((color, userId) => {
                     return (
-                      <img key={userId} src={`images/lights/${color}.png`} className={styles.colorImage} />
+                      <img key={userId} src={`images/lights/${color}.png`} className={tableStyles.colorImage} />
                     )
                   })}
                 </td>
@@ -53,6 +79,7 @@ class OverviewManager extends Component {
 // Which part of the Redux global state does our component want to receive as props?
 function mapStateToProps(state) {
   return {
+    gameState: state.get('gameState'),
     currentArea: state.get('currentArea'),
     areas: state.get('areas')
   }

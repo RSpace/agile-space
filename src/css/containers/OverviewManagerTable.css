@@ -1,7 +1,7 @@
 .table {
+  composes: default-font from "../typography.css";
   width: 100%;
   border-collapse: collapse;
-  font-family: Calibri, Candara, Segoe, Segoe UI, Optima, Arial, sans-serif;
   font-size: 20px;
   background-color: #fff;
 }
