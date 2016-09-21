@@ -37,11 +37,20 @@ export default class AreaCard extends Component {
     )
   }
 
+  componentDidMount () {
+    // Always animate on first mount, as we just switched from instructions
+    setTimeout(this.doAnimation.bind(this), 1)
+  }
+
   componentWillUpdate (nextProps, nextState) {
     if( nextProps.title !== this.props.title ) {
-      this.setState({ isAnimating: true })
-      this.domNode.emit('spin')
+      this.doAnimation()
     }
+  }
+
+  doAnimation () {
+    this.setState({ isAnimating: true })
+    this.domNode.emit('spin')
   }
 
   onClick () {
