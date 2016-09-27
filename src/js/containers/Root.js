@@ -52,4 +52,14 @@ export default class Root extends Component {
       return null
     }
   }
+
+  componentDidMount () {
+    if (altspace.inClient) {
+      let pathWithoutFile = document.location.pathname.split("/")
+      pathWithoutFile.pop()
+      pathWithoutFile = pathWithoutFile.join("/")
+      let url = document.location.protocol + "//" + document.location.host + pathWithoutFile + "/faq.html"
+      altspace.open(url)
+    }
+  }
 }
