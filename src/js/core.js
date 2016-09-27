@@ -64,9 +64,9 @@ export function setFullStateFromSnapshot(state, snapshot) {
   return state.merge(fromJS(snapshot))
 }
 
-export function setResponse(state, color, playerId) {
-  let currentArea = state.get('currentArea')
-  return state.setIn(['areas', currentArea, playerId], color)
+export function setResponse(state, color, playerId, givenArea) {
+  let area = givenArea || state.get('currentArea')
+  return state.setIn(['areas', area, playerId], color)
 }
 
 export function getGameState() {

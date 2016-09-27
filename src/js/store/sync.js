@@ -96,7 +96,7 @@ export function initRead(store) {
   })
 }
 
-function onSelectedColorsReceived(store, snapshot) {
+function onSelectedColorsReceived(store, area, snapshot) {
   let responsesObject = snapshot.val()
   if (!responsesObject) {
     return
@@ -104,14 +104,14 @@ function onSelectedColorsReceived(store, snapshot) {
 
   let responsesMap = new Map(Object.entries(responsesObject))
   responsesMap.forEach((color, playerId) => {
-    store.dispatch(receiveResponse(color, playerId))
+    store.dispatch(receiveResponse(area, color, playerId))
   })
 }
 
-function onSelectedColorChanged(store, snapshot) {
+function onSelectedColorChanged(store, area, snapshot) {
   let playerId = snapshot.key()
   let color = snapshot.val()
-  store.dispatch(receiveResponse(color, playerId))
+  store.dispatch(receiveResponse(area, color, playerId))
 }
 
 function onUsersReceived(store, snapshot) {
@@ -154,9 +154,9 @@ function listenToNewArea(store, oldArea, newArea) {
   // Subscribe to events on new area if we have one
   if (newArea) {
     let newAreaRef = firebaseAppInstance.child('areas').child(newArea)
-    newAreaRef.once('value', onSelectedColorsReceived.bind(this, store))
-    newAreaRef.on('child_added', onSelectedColorChanged.bind(this, store))
-    newAreaRef.on('child_changed', onSelectedColorChanged.bind(this, store))
+    newAreaRef.once('value', onSelectedColorsReceived.bind(this, store, newArea))
+    newAreaRef.on('child_added', onSelectedColorChanged.bind(this, store, newArea))
+    newAreaRef.on('child_changed', onSelectedColorChanged.bind(this, store, newArea))
   }
 }
 
