@@ -1,10 +1,15 @@
-.table {
+.container {
   composes: default-font from "../typography.css";
   width: 50%;
+  float: left;
+}
+
+.table {
   border-collapse: collapse;
   font-size: 20px;
+  text-decoration: underline;
   background-color: #fff;
-  float: left;
+  width: 100%;
 }
 
 .areaCol {
@@ -38,4 +43,9 @@
   height: 35px;
   padding: 0px 5px;
   vertical-align: middle;
+}
+
+.tip {
+  padding: 15px;
+  background-color: lightgreen;
 }

@@ -32,26 +32,33 @@ class OverviewManager extends Component {
 
   renderOverviewTable () {
     return (
-      <table className={tableStyles.table}>
-        <tbody>
-          { AREAS.map((area) => {
-            return (
-              <tr key={area} className={this.props.currentArea == area ? tableStyles.rowActive : tableStyles.rowInactive} onClick={this.onAreaColClicked.bind(this, area)}>
-                <th className={tableStyles.areaCol}>
-                  {AREA_NAMES[area]}
-                </th>
-                <td>
-                  { this.getResponses(area).map((color, userId) => {
-                    return (
-                      <img key={userId} src={`images/lights/${color}.png`} className={tableStyles.colorImage} />
-                    )
-                  })}
-                </td>
-              </tr>
-            )
-          })}
-        </tbody>
-      </table>
+      <div className={tableStyles.container}>
+        <table className={tableStyles.table}>
+          <tbody>
+            { AREAS.map((area) => {
+              return (
+                <tr key={area} className={this.props.currentArea == area ? tableStyles.rowActive : tableStyles.rowInactive} onClick={this.onAreaColClicked.bind(this, area)}>
+                  <th className={tableStyles.areaCol}>
+                    {AREA_NAMES[area]}
+                  </th>
+                  <td>
+                    { this.getResponses(area).map((color, userId) => {
+                      return (
+                        <img key={userId} src={`images/lights/${color}.png`} className={tableStyles.colorImage} />
+                      )
+                    })}
+                  </td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
+        <div className={tableStyles.tip}>
+          <p>
+            <strong>Tip:</strong> You can click any area in the table above to switch to that area.
+          </p>
+        </div>
+      </div>
     )
   }
 
