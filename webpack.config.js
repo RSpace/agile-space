@@ -2,48 +2,56 @@ var path = require('path');
 var webpack = require('webpack');
 require('babel-polyfill');
 
-var ENTRY_POINTS = [
-  './src/js/entrypoint'
-];
+var ENTRY_TO_OUTPUT = {
+  './src/js/entrypoint': 'bundle.js',
+  './src/js/faq': 'faq.js'
+};
 
 var JS_LOADERS = [
   'babel?cacheDirectory&presets[]=react,presets[]=es2015,presets[]=stage-0'
 ];
 
-module.exports = {
-  entry: ENTRY_POINTS,
-  output: {
-    // Bundle will be served at /bundle.js locally.
-    filename: 'bundle.js',
-    path: './build',
-    publicPath: '/',
-  },
-  module: {
-    loaders: [
-      {
-        // JS.
-        exclude: /(node_modules|bower_components|vr-markup)/,
-        loaders: JS_LOADERS,
-        test: /\.js$/,
-      },
-      {
-        // CSS
-        test: /\.css$/,
-        loader: 'style!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
-      }
-    ],
-  },
-  plugins: [],
-  resolve: {
-    extensions: ['', '.js', '.json'],
-    fallback: path.join(__dirname, 'node_modules'),
-    modulesDirectories: [
-      'src/js',
-      'node_modules',
-    ]
-  },
-  resolveLoader: {
-    fallback: [path.join(__dirname, 'node_modules')]
-  },
-  devtool: 'source-map'
-};
+module.exports = Object.keys(ENTRY_TO_OUTPUT).map(function(entry) {
+  return {
+    entry: entry,
+    output: {
+      // Bundle will be served at /bundle.js locally.
+      filename: ENTRY_TO_OUTPUT[entry],
+      path: './build',
+      publicPath: '/',
+    },
+    module: {
+      loaders: [
+        {
+          // JS.
+          exclude: /(node_modules|bower_components|vr-markup)/,
+          loaders: JS_LOADERS,
+          test: /\.js$/,
+        },
+        {
+          // CSS
+          test: /\.css$/,
+          loader: 'style!css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
+        },
+        {
+          // Images
+          test: /\.png|jpg$/,
+          loader: "url-loader?limit=10000"
+        }
+      ],
+    },
+    plugins: [],
+    resolve: {
+      extensions: ['', '.js', '.json'],
+      fallback: path.join(__dirname, 'node_modules'),
+      modulesDirectories: [
+        'src/js',
+        'node_modules',
+      ]
+    },
+    resolveLoader: {
+      fallback: [path.join(__dirname, 'node_modules')]
+    },
+    devtool: 'source-map'
+  }
+});

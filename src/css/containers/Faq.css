@@ -1,0 +1,27 @@
+.container {
+}
+
+.item {
+  composes: default-font from "../typography.css";
+  color: #fff;
+  background-color: #2a2b2a;
+  background-image:url('../../images/instructions/box_header.png');
+  background-repeat: no-repeat;
+  border-radius: 20px;
+
+  width: 260px;
+  height: 300px;
+  padding: 70px 20px 20px 20px;
+
+  float: left;
+  margin: 20px 20px 0 0;
+}
+
+.item h3 {
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.item p {
+  font-size: 20px;
+}
