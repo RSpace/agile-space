@@ -6,19 +6,34 @@ import { getStore } from './store'
 let firebaseConnection, firebaseAppInstance
 function initFirebaseConnection() {
   return new Promise(function(resolve, reject) {
-    // See http://altspacevr.github.io/AltspaceSDK/doc/sync.html#connect
-    altspace.utilities.sync.connect({
-        // Use own Firebase database
-        baseRefUrl: 'https://agile-space.firebaseio.com/',
-        // This helps to prevent collisions.
-        authorId: 'immersionftw.com',
-        appId: 'agile-space'
-    }).then((connection) => {
-      // See http://altspacevr.github.io/AltspaceSDK/doc/sync-Connection.html
-      firebaseConnection = connection
-      firebaseAppInstance = connection.instance
-      resolve(connection)
+    getInstanceId().then((instanceId) => {
+      // See http://altspacevr.github.io/AltspaceSDK/doc/sync.html#connect
+      altspace.utilities.sync.connect({
+          // Use own Firebase database
+          baseRefUrl: 'https://agile-space.firebaseio.com/',
+          // This helps to prevent collisions.
+          authorId: 'immersionftw.com',
+          appId: 'agile-space',
+          instanceId
+      }).then((connection) => {
+        // See http://altspacevr.github.io/AltspaceSDK/doc/sync-Connection.html
+        firebaseConnection = connection
+        firebaseAppInstance = connection.instance
+        resolve(connection)
+      })
     })
+  })
+}
+
+function getInstanceId() {
+  return new Promise(function(resolve, reject) {
+    if(altspace.inClient) {
+      altspace.getSpace().then((space) => {
+        resolve(space.sid)
+      })
+    } else {
+      resolve(null)
+    }
   })
 }
 
