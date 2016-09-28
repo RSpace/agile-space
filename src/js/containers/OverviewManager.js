@@ -10,7 +10,7 @@ const SORT_ORDER = ['green', 'yellow', 'red']
 class OverviewManager extends Component {
   render () {
     return (
-      <div>
+      <div className={introStyles.outerContainer}>
         { this.renderOverviewTable () }
         { this.renderInstructions () }
       </div>
@@ -21,10 +21,16 @@ class OverviewManager extends Component {
     return (
       <div className={introStyles.container}>
         <div className={introStyles.inner}>
-          <h1>Introduction to this activity</h1>
+          <h2>Introduction to this activity</h2>
           <p>This retrospective activity helps your team assess their current situation and identify areas where they can improve. The activity goes through a number of areas, and for each area, each team member picks a green, yellow or red light.</p>
           <p>Some or all team members then explain why they picked the response they did. This is repeated for each area, and usually wrapped up by looking for the "worst" areas to take immediate action on.</p>
-          <img className={introStyles.responseCardsMockup} src="images/mockups/response_cards_intro.png" />
+
+          <h3>Frequently asked questions</h3>
+          <p>
+            Click the
+            <img src="images/instructions/icon.png" className={introStyles.faqIcon} />
+            button above the Altspace menu button to view the FAQ at any time.
+          </p>
         </div>
       </div>
     )

@@ -54,12 +54,21 @@ export default class Root extends Component {
   }
 
   componentDidMount () {
+    this.setupFaq ()
+  }
+
+  setupFaq () {
     if (altspace.inClient) {
       let pathWithoutFile = document.location.pathname.split("/")
       pathWithoutFile.pop()
       pathWithoutFile = pathWithoutFile.join("/")
-      let url = document.location.protocol + "//" + document.location.host + pathWithoutFile + "/faq.html"
-      altspace.open(url)
+      let baseUrl = document.location.protocol + "//" + document.location.host + pathWithoutFile
+      let contentUrl = baseUrl + "/faq.html"
+      let iconUrl = baseUrl + "/images/instructions/icon.png"
+      altspace.open(contentUrl, "_experience", {
+        icon: iconUrl,
+        hidden: true
+      })
     }
   }
 }
