@@ -1,4 +1,7 @@
-import {INITIAL_STATE, setFullStateFromSnapshot, setResponse, setArea, setUser, setGameState} from '../core'
+import {
+  INITIAL_STATE, setFullStateFromSnapshot, setResponse, setArea,
+  setUser, setGameState, restartGame
+} from '../core'
 import { saveArea } from './sync'
 
 export default function rootReducer(state = INITIAL_STATE, action) {
@@ -22,6 +25,8 @@ export default function rootReducer(state = INITIAL_STATE, action) {
       return setGameState(state, action.gameState)
     case 'START_GAME':
       return setGameState(state, 'running')
+    case 'RESTART_GAME':
+      return state
   }
   return state
 }

@@ -37,7 +37,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
   return {
     onSetArea: (area) => dispatch(setArea(area)),
-    onRestart: () => dispatch(restartGame)
+    onRestart: () => dispatch(restartGame())
   }
 }
 

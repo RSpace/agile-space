@@ -5,7 +5,6 @@ import { getMySelectedColor, getOtherUsers } from '../core'
 import { startGame, setResponse, nextArea } from '../store/actions'
 import Table from '../components/Table'
 import InstructionCard from '../components/InstructionCard'
-import RestartControl from '../components/RestartControl'
 import AreaCard from '../components/AreaCard'
 import MyResponseCards from '../components/MyResponseCards'
 import ResponseCard from '../components/ResponseCard'
@@ -42,7 +41,6 @@ class GameManager extends Component {
   renderRunningGame() {
     return (
       <Entity>
-        <RestartControl />
         <AreaCard title={this.props.currentArea} onNextArea={this.props.onNextArea} />
 
         <MyResponseCards selectedColor={this.props.selectedColor} onResponse={this.props.onResponse} />

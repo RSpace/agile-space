@@ -1,6 +1,7 @@
 import altspace from 'altspace'
 import { setFullStateFromSnapshot, receiveResponse, receiveArea, receiveUser, receiveGameState } from './actions'
-import { getGameState, getCurrentArea } from '../core'
+import { getGameState, getCurrentArea, INITIAL_STATE } from '../core'
+import { getStore } from './store'
 
 let firebaseConnection, firebaseAppInstance
 function initFirebaseConnection() {
@@ -58,13 +59,6 @@ export function saveTableAngle(tableAngle) {
 export function initRead(store) {
   return new Promise(function(resolve, reject) {
     initFirebaseConnection().then(() => {
-      // Debugging
-      firebaseAppInstance.on("value", function(snapshot) {
-        console.log(snapshot.val());
-      }, function (errorObject) {
-        console.log("The read failed: " + errorObject.code);
-      });
-
       // Initial state from Firebase
       firebaseAppInstance.once("value", (snapshot) => {
         store.dispatch(setFullStateFromSnapshot(snapshot.val()))
@@ -94,6 +88,10 @@ export function initRead(store) {
       })
     })
   })
+}
+
+export function resetInstanceData() {
+  firebaseAppInstance.update(INITIAL_STATE.toJS())
 }
 
 function onSelectedColorsReceived(store, area, snapshot) {

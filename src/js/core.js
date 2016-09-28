@@ -1,6 +1,6 @@
 import { Map, Set, fromJS } from 'immutable'
 import altspace from 'altspace'
-import { saveUser } from './store/sync'
+import { saveUser, resetInstanceData } from './store/sync'
 import { getStore } from './store/store'
 
 export const AREAS = [
@@ -96,7 +96,13 @@ export function setGameState(state, gameState) {
     console.error('Attempted to set invalid game state "' + gameState + '"')
     return state
   }
-  return state.set('gameState', gameState)
+
+  // Game was reset
+  if (gameState === 'intro' && state.get('gameState') !== 'intro') {
+    return INITIAL_STATE
+  } else {
+    return state.set('gameState', gameState)
+  }
 }
 
 export function setArea(state, area) {
@@ -162,4 +168,8 @@ function keyIn(/*...keys*/) {
   return function (v, k) {
     return keySet.has(k);
   }
+}
+
+export function restartGame() {
+  resetInstanceData()
 }

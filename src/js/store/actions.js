@@ -1,5 +1,5 @@
 import { saveResponse, saveArea, saveGameState } from './sync'
-import { getNextArea } from '../core'
+import { getNextArea, restartGame as coreRestartGame } from '../core'
 
 export function setFullStateFromSnapshot(snapshot) {
   return { type: 'SET_INITIAL_STATE', snapshot }
@@ -42,5 +42,6 @@ export function startGame() {
 }
 
 export function restartGame() {
+  coreRestartGame()
   return { type: 'RESTART_GAME' }
 }

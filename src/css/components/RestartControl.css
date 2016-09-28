@@ -1,0 +1,40 @@
+.container {
+  text-align: center;
+}
+
+.button {
+  composes: default-font from "../typography.css";
+  border: 2px solid #000;
+  font-weight: bold;
+  padding: 5px 10px;
+  margin-right: 10px;
+  border-radius: 5px;
+}
+
+.confirmButton {
+  font-size: 18px;
+}
+
+.restartButton {
+  composes: button;
+  background-color: #fff;
+  float: right;
+  font-size: 25px;
+}
+
+.yesButton {
+  composes: button;
+  composes: confirmButton;
+  background-color: lightgreen;
+  margin-left: 20px;
+}
+
+.noButton {
+  composes: button;
+  composes: confirmButton;
+  background-color: pink;
+}
+
+.confirmText {
+  margin: 0 0 3px 0;
+}
