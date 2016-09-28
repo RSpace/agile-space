@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import FaqItem from './FaqItem'
-import styles from '../../css/containers/Faq.css'
+import styles from '../../css/components/Faq.css'
 
 const FAQ_ITEMS = [
   {

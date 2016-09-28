@@ -40,3 +40,7 @@ export function startGame() {
   saveGameState('running')
   return { type: 'START_GAME' }
 }
+
+export function restartGame() {
+  return { type: 'RESTART_GAME' }
+}

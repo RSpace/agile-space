@@ -1,5 +1,5 @@
 import React from 'react'
-import styles from '../../css/containers/Faq.css'
+import styles from '../../css/components/Faq.css'
 
 export default props => (
   <div className={styles.item}>
