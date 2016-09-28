@@ -33,7 +33,7 @@ export default class MyResponseCards extends Component {
   }
 
   componentWillUnmount () {
-    clearInterval(this.tableAngleObserverInterval)
+    clearInterval(this.yAngleObserverInterval)
   }
 
   observeYAngle () {
