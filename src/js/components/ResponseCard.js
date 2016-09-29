@@ -8,6 +8,7 @@ export default class ResponseCard extends Component {
     let material = {src: `#${this.props.color}-light`, side: 'double'}
     let position = this.getPosition()
     let rotation = this.getRotation()
+    let sound    = { src: '#response-sound', on: 'click' }
 
     return (
       <Entity
@@ -15,6 +16,7 @@ export default class ResponseCard extends Component {
         material={material}
         position={position}
         rotation={rotation}
+        sound={sound}
         onClick={this.onClick.bind(this)}
       >
       </Entity>

@@ -21,6 +21,9 @@ export default class Assets extends Component {
 
         <img id="mockup-intro-with-button" src="images/mockups/intro_with_button.png" />
         <img id="mockup-response-cards-intro" src="images/mockups/response_cards_intro.png" />
+
+        <audio id="response-sound" src="sounds/cardup.ogg" />
+        <audio id="area-change-sound" src="sounds/crystalglass.ogg" />
       </a-assets>
     )
   }
