@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { Entity } from 'aframe-react'
+import ReactDOM from 'react-dom'
 
 export default class ResponseCard extends Component {
   render () {
@@ -8,7 +9,7 @@ export default class ResponseCard extends Component {
     let material = {src: `#${this.props.color}-light`, side: 'double'}
     let position = this.getPosition()
     let rotation = this.getRotation()
-    let sound    = { src: '#response-sound', on: 'click' }
+    let sound    = { src: '#response-sound', on: 'selected' }
 
     return (
       <Entity
@@ -18,6 +19,7 @@ export default class ResponseCard extends Component {
         rotation={rotation}
         sound={sound}
         onClick={this.onClick.bind(this)}
+        ref={(component) => this.domNode = ReactDOM.findDOMNode(component)}
       >
       </Entity>
     )
@@ -25,6 +27,7 @@ export default class ResponseCard extends Component {
 
   onClick () {
     if (this.props.selected) { return }
+    this.domNode.emit('selected')
     this.props.onResponse(this.props.color)
   }
 

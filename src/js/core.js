@@ -154,6 +154,7 @@ export function getOtherUsers(state) {
 
   let userData = otherUsers.map((userAttributes, userId) => {
     return {
+      id: userId,
       name: userAttributes.name,
       tableAngle: userAttributes.tableAngle || 0,
       color: state.getIn(['areas', currentArea, userId])

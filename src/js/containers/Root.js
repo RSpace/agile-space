@@ -25,10 +25,10 @@ export default class Root extends Component {
 
   renderGameManager () {
     return (
-      <Scene embedded={"development" === process.env.NODE_ENV} altspace="usePixelScale: false; verticalAlign: bottom;" vr-mode-ui="enabled: false;">
+      <Scene altspace="usePixelScale: false; verticalAlign: bottom;" vr-mode-ui="enabled: false;">
         <Assets />
 
-        <a-entity position="0 1.8 3">
+        <a-entity position="0 0 3">
           <a-camera><a-cursor></a-cursor></a-camera>
         </a-entity>
 

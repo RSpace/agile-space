@@ -34,7 +34,7 @@ AFRAME.registerComponent('look-at-altspace-user', {
       } else {
         targetEl.addEventListener('loaded', function () {
           this.beginTracking(targetEl)
-        })
+        }.bind(this))
       }
     }
   },
