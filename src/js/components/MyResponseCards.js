@@ -21,6 +21,7 @@ export default class MyResponseCards extends Component {
               selected={isSelected} key={color}
               onResponse={this.props.onResponse}
               isMyCard={true}
+              showTip={!isSelected && this.props.showTips}
             />
           )
         }.bind(this))}

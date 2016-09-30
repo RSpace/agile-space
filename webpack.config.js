@@ -21,6 +21,10 @@ module.exports = Object.keys(ENTRY_TO_OUTPUT).map(function(entry) {
       publicPath: '/',
     },
     module: {
+      noParse: [
+        /node_modules\/aframe\/dist\/aframe.js/,
+        /node_modules\/webvr-polyfill\/build\/webvr-polyfill.js/
+      ],
       loaders: [
         {
           // JS.

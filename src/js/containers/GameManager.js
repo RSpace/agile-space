@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Entity } from 'aframe-react'
 import { connect } from 'react-redux'
-import { getMySelectedColor, getOtherUsers } from '../core'
+import { getMySelectedColor, getOtherUsers, AREAS } from '../core'
 import { startGame, setResponse, nextArea } from '../store/actions'
 import Table from '../components/Table'
 import InstructionCard from '../components/InstructionCard'
@@ -41,9 +41,16 @@ class GameManager extends Component {
   renderRunningGame() {
     return (
       <Entity>
-        <AreaCard title={this.props.currentArea} onNextArea={this.props.onNextArea} />
+        <AreaCard
+          title={this.props.currentArea}
+          onNextArea={this.props.onNextArea}
+        />
 
-        <MyResponseCards selectedColor={this.props.selectedColor} onResponse={this.props.onResponse} />
+        <MyResponseCards
+          selectedColor={this.props.selectedColor}
+          onResponse={this.props.onResponse}
+          showTips={this.isFirstRound()}
+        />
 
         { this.props.otherUsers.valueSeq().map(function(user) {
           if (user.color) {
@@ -53,6 +60,7 @@ class GameManager extends Component {
                   color={user.color}
                   selected={true}
                   isMyCard={false}
+                  showTip={false}
                 />
               </Entity>
             )
@@ -67,6 +75,9 @@ class GameManager extends Component {
     return null
   }
 
+  isFirstRound () {
+    return this.props.currentArea === AREAS[0]
+  }
 }
 
 // Which part of the Redux global state does our component want to receive as props?

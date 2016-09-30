@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import { Entity } from 'aframe-react'
 import ReactDOM from 'react-dom'
+import ResponseTip from './ResponseTip'
 
 export default class ResponseCard extends Component {
   render () {
     let geometry = { primitive: 'plane', width: 0.25, height: 0.375 }
-
-    let material = {src: `#${this.props.color}-light`, side: 'double'}
+    let material = {src: `#${this.props.color}-response`, side: 'double', transparent: 'true'}
     let position = this.getPosition()
     let rotation = this.getRotation()
     let sound    = { src: '#response-sound', on: 'selected' }
@@ -21,6 +21,7 @@ export default class ResponseCard extends Component {
         onClick={this.onClick.bind(this)}
         ref={(component) => this.domNode = ReactDOM.findDOMNode(component)}
       >
+        <ResponseTip color={this.props.color} visible={this.props.showTip || false} />
       </Entity>
     )
   }
@@ -29,7 +30,9 @@ export default class ResponseCard extends Component {
     if (!this.props.isMyCard) {
       // Another user just selected a response card first time for this area
       setTimeout(() => {
-        this.domNode.emit('selected')
+        if (this.domNode) {
+          this.domNode.emit('selected')
+        }
       }, 500)
     }
   }

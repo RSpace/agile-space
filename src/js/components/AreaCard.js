@@ -11,7 +11,7 @@ export default class AreaCard extends Component {
 
   render () {
     let geometry = { primitive: 'plane', width: 1, height: 1.5 }
-    let material = {src: `#${this.props.title}`, side: 'double'}
+    let material = {src: `#${this.props.title}`, side: 'double', transparent: 'true'}
     let position = "0 2 0"
     let sound    = { src: '#area-change-sound', on: 'spin' }
 
