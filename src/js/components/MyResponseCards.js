@@ -20,6 +20,7 @@ export default class MyResponseCards extends Component {
               color={color}
               selected={isSelected} key={color}
               onResponse={this.props.onResponse}
+              isMyCard={true}
             />
           )
         }.bind(this))}

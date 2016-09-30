@@ -52,6 +52,7 @@ class GameManager extends Component {
                 <ResponseCard
                   color={user.color}
                   selected={true}
+                  isMyCard={false}
                 />
               </Entity>
             )

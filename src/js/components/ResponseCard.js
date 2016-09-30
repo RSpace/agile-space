@@ -25,8 +25,24 @@ export default class ResponseCard extends Component {
     )
   }
 
+  componentDidMount () {
+    if (!this.props.isMyCard) {
+      // Another user just selected a response card first time for this area
+      setTimeout(() => {
+        this.domNode.emit('selected')
+      }, 500)
+    }
+  }
+
+  componentDidUpdate (prevProps, prevState) {
+    if (!this.props.isMyCard && prevProps.color !== this.props.color) {
+      // Another user just changed their response for this area
+      this.domNode.emit('selected')
+    }
+  }
+
   onClick () {
-    if (this.props.selected) { return }
+    if (!this.props.isMyCard || this.props.selected) { return }
     this.domNode.emit('selected')
     this.props.onResponse(this.props.color)
   }
