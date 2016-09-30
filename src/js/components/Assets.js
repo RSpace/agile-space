@@ -23,6 +23,7 @@ export default class Assets extends Component {
         })}
 
         <img id="intro-overlay" src="images/instructions/intro_overlay.png" />
+        <img id="end-overlay" src="images/instructions/end_overlay.png" />
 
         <audio id="response-sound" src="sounds/cardup.ogg" />
         <audio id="area-change-sound" src="sounds/crystalglass.ogg" />

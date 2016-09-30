@@ -8,6 +8,7 @@ import InstructionCard from '../components/InstructionCard'
 import AreaCard from '../components/AreaCard'
 import MyResponseCards from '../components/MyResponseCards'
 import ResponseCard from '../components/ResponseCard'
+import End from '../components/End'
 
 class GameManager extends Component {
   render () {
@@ -71,8 +72,9 @@ class GameManager extends Component {
   }
 
   renderEndedGame() {
-    // TODO
-    return null
+    return (
+      <End />
+    )
   }
 
   isFirstRound () {

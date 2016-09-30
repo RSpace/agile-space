@@ -17,6 +17,9 @@ export function receiveResponse(area, color, playerId) {
 export function nextArea() {
   let area = getNextArea()
   saveArea(area)
+  if (!area) {
+    saveGameState('ended')
+  }
   return { type: 'NEXT_AREA', area }
 }
 

@@ -86,9 +86,10 @@ export function getNextArea() {
   let index = AREAS.indexOf(area)
   index++
   if (index >= AREAS.length) {
-    index = 0
+    return null // Signals end of game
+  } else {
+    return AREAS[index]
   }
-  return AREAS[index]
 }
 
 export function setGameState(state, gameState) {
