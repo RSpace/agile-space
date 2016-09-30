@@ -1,4 +1,4 @@
-require('aframe')
+import AFRAME from 'aframe'
 require('aframe-altspace-component')
 require('aframe-bmfont-text-component')
 import url from 'url'
@@ -12,6 +12,13 @@ import DevTools from './DevTools'
 import altspace from 'altspace'
 
 export default class Root extends Component {
+  constructor(props) {
+    super(props)
+
+    // Altspace requires this hack for audio to work
+    AFRAME.THREE.PositionalAudio = AFRAME.THREE.Audio
+  }
+
   render () {
     return (
       <Provider store={this.props.store}>
