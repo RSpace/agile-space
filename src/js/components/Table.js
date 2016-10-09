@@ -5,9 +5,10 @@ export default class Table extends Component {
   render () {
     return (
       <Entity
-        geometry={{primitive: 'cylinder', height: 0.9, radius: 2 }}
+        obj-model="obj: #table-obj; mtl: #table-mtl"
         position="0 0.5 0"
-        material={{color: '#3e3e40'}}
+        scale="1 1 1"
+
       ></Entity>
     )
   }
