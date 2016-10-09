@@ -1,4 +1,4 @@
-import AFRAME from 'aframe'
+import AFRAME from 'aframe/src'
 import altspace from 'altspace'
 
 delete AFRAME.components['look-at-altspace-user']

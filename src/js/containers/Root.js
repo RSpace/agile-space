@@ -1,4 +1,4 @@
-import AFRAME from 'aframe'
+import AFRAME from 'aframe/src'
 require('aframe-altspace-component')
 import url from 'url'
 import React, { Component } from 'react'
