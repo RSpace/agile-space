@@ -70,7 +70,7 @@ export function setResponse(state, color, playerId, givenArea, isUserAction) {
   if (isUserAction) {
     playResponseSound()
   }
-  
+
   let area = givenArea || state.get('currentArea')
   return state.setIn(['areas', area, playerId], color)
 }
@@ -135,7 +135,8 @@ export function getPlayerInfo() {
       {
         playerInfo = {
           id: 'altspace-' + userInfo.userId,
-          name: userInfo.displayName
+          name: userInfo.displayName,
+          isModerator: userInfo.isModerator
         }
         resolve(playerInfo)
       })
@@ -144,7 +145,8 @@ export function getPlayerInfo() {
       let playerId = 'anon-' + Math.floor(Math.random() * 10000)
       playerInfo = {
         id: playerId,
-        name: playerId
+        name: playerId,
+        isModerator: true
       }
       resolve(playerInfo)
     }

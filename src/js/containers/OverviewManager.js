@@ -18,6 +18,7 @@ class OverviewManager extends Component {
           gameState={this.props.gameState}
           areas={this.props.areas}
           onRestart={this.props.onRestart}
+          userIsModerator={this.props.playerInfo.isModerator}
         />
       </div>
     )

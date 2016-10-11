@@ -15,7 +15,7 @@ Promise.all([initRead(store), getPlayerInfo()]).then((values) => {
   saveUser(playerInfo.id, playerInfo.name)
 
   render(
-    <Root store={store} />,
+    <Root store={store} playerInfo={playerInfo} />,
     document.getElementById('root')
   )
 })

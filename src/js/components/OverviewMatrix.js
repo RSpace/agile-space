@@ -27,20 +27,30 @@ export default class OverviewMatrix extends Component {
                 </tr>
               )
             })}
-            <tr>
-              <td className={styles.tip}>
-                <p>
-                  <strong>Tip:</strong> Click area to switch to it.
-                </p>
-              </td>
-              <td>
-                <RestartControl onRestart={this.props.onRestart} />
-              </td>
-            </tr>
+            { this.renderModeratorControls() }
           </tbody>
         </table>
       </div>
     )
+  }
+
+  renderModeratorControls () {
+    if (this.props.userIsModerator) {
+      return (
+        <tr>
+          <td className={styles.tip}>
+            <p>
+              <strong>Tip:</strong> Click area to switch to it.
+            </p>
+          </td>
+          <td>
+            <RestartControl onRestart={this.props.onRestart} />
+          </td>
+        </tr>      
+      )
+    } else {
+      return null
+    }
   }
 
   getResponses (area) {

@@ -47,7 +47,7 @@ export default class Root extends Component {
 
   renderOverviewManager () {
     return (
-      <OverviewManager />
+      <OverviewManager playerInfo={this.props.playerInfo} />
     )
   }
 
