@@ -6,8 +6,7 @@ export default class Assets extends Component {
   render () {
     return (
       <a-assets>
-        <a-asset-item id="table-obj" src="models/table.obj"></a-asset-item>
-        <a-asset-item id="table-mtl" src="models/table.mtl"></a-asset-item>
+        <a-asset-item id="table-dae" src="models/table.dae"></a-asset-item>
 
         <img id="green-response" src="images/response_cards/green.png" />
         <img id="yellow-response" src="images/response_cards/yellow.png" />
