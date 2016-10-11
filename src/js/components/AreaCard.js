@@ -22,7 +22,7 @@ export default class AreaCard extends Component {
         position={position}
         onClick={this.onClick.bind(this)}
         look-at-altspace-user={{enabled: !this.state.isAnimating}}
-        ref={(component) => this.domNode = ReactDOM.findDOMNode(component)}
+        ref={(component) => this.setDomNode(ReactDOM.findDOMNode(component))}
         sound={sound}
       >
         <Animation
@@ -39,15 +39,14 @@ export default class AreaCard extends Component {
     )
   }
 
-  componentDidMount () {
-    // Always animate on first mount, as we just switched from instructions
-    setTimeout(this.doAnimation.bind(this), 1)
-  }
-
-  componentWillUpdate (nextProps, nextState) {
+  componentWillReceiveProps (nextProps) {
     if( nextProps.title !== this.props.title ) {
       this.doAnimation()
     }
+  }
+
+  setDomNode (domNode) {
+    this.domNode = domNode
   }
 
   doAnimation () {
