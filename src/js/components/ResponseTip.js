@@ -8,15 +8,18 @@ export default class ResponseTip extends Component {
     let position = "0 0.1875 0.076"
     let rotation = "90 0 0"
 
-    return (
-      <Entity
-        geometry={geometry}
-        material={material}
-        position={position}
-        rotation={rotation}
-        visible={this.props.visible}
-      >
-      </Entity>
-    )
+    if (this.props.visible) {
+      return (
+        <Entity
+          geometry={geometry}
+          material={material}
+          position={position}
+          rotation={rotation}
+        >
+        </Entity>
+      )
+    } else {
+      return null
+    }
   }
 }

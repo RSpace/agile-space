@@ -15,13 +15,14 @@ export default class MyResponseCards extends Component {
       >
         { COLORS.map(function(color) {
           let isSelected = (this.props.selectedColor === color)
+          let showTip = !isSelected && this.props.showTips
           return (
             <ResponseCard
               color={color}
               selected={isSelected} key={color}
               onResponse={this.props.onResponse}
               isMyCard={true}
-              showTip={!isSelected && this.props.showTips}
+              showTip={showTip}
             />
           )
         }.bind(this))}
