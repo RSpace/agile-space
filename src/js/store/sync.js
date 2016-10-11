@@ -2,7 +2,7 @@ import altspace from 'altspace'
 import { setFullStateFromSnapshot, receiveResponse, receiveArea, receiveUser, receiveGameState } from './actions'
 import { getGameState, getCurrentArea, INITIAL_STATE } from '../core'
 import { getStore } from './store'
-import url from 'url'
+import Url from '../lib/url'
 
 let firebaseConnection, firebaseAppInstance
 let initalItemsLoaded = { responses: false, users: false }
@@ -30,9 +30,9 @@ function initFirebaseConnection() {
 
 function getInstanceId() {
   return new Promise(function(resolve, reject) {
-    let parsedUrl = url.parse(window.location.href, true)
-    if (parsedUrl.query['altspace-sync-instance']) {
-      resolve(parsedUrl.query['altspace-sync-instance'])
+    let url = new Url()
+    if (url.query['altspace-sync-instance']) {
+      resolve(url.query['altspace-sync-instance'])
     } else if(altspace.inClient) {
       altspace.getSpace().then((space) => {
         resolve(space.sid)
@@ -150,7 +150,7 @@ function onUsersReceived(store, snapshot) {
     store.dispatch(receiveUser(playerId, attributes.name, attributes.tableAngle || 0))
   })
 
-  initalItemsLoaded.users = true // OK for onUserChanged to dispatch now  
+  initalItemsLoaded.users = true // OK for onUserChanged to dispatch now
 }
 
 function onUserChanged(store, snapshot) {

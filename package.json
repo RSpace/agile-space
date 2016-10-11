@@ -15,8 +15,7 @@
     "redux": "^3.5.2",
     "redux-logger": "^2.6.1",
     "redux-thunk": "^2.1.0",
-    "three": "^0.73.0",
-    "url": "^0.11.0"
+    "three": "^0.73.0"
   },
   "scripts": {
     "build": "./scripts/build.sh",

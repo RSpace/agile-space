@@ -3,7 +3,7 @@ import altspace from 'altspace'
 import { saveUser, resetInstanceData } from './store/sync'
 import { getStore } from './store/store'
 import { playResponseSound, playAreaChangeSound } from './helpers/SoundManager'
-import url from 'url'
+import Url from './lib/url'
 
 export const AREAS = [
   'delivering-value',
@@ -142,7 +142,16 @@ export function getPlayerInfo() {
       })
     }
     else {
-      let playerId = 'anon-' + Math.floor(Math.random() * 10000)
+      let playerId
+      let url = new Url()
+      if (url.query['playerId']) {
+        playerId = url.query['playerId']
+      } else {
+        playerId = 'anon-' + Math.floor(Math.random() * 10000)
+        url.query['playerId'] = playerId
+        window.location.href = url.toString()
+      }
+
       playerInfo = {
         id: playerId,
         name: playerId,
@@ -188,6 +197,6 @@ export function restartGame() {
 }
 
 export function isOverview() {
-  let parsedUrl = url.parse(window.location.href, true)
-  return !!parsedUrl.query['overview']
+  let url = new Url()
+  return !!url.query['overview']
 }
