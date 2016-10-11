@@ -116,6 +116,8 @@ export function resetInstanceData() {
 }
 
 function onSelectedColorsReceived(store, area, snapshot) {
+  initalItemsLoaded.responses = true // OK for onSelectedColorChanged to dispatch now
+
   let responsesObject = snapshot.val()
   if (!responsesObject) {
     return
@@ -125,8 +127,6 @@ function onSelectedColorsReceived(store, area, snapshot) {
   responsesMap.forEach((color, playerId) => {
     store.dispatch(receiveResponse(area, color, playerId, false))
   })
-
-  initalItemsLoaded.responses = true // OK for onSelectedColorChanged to dispatch now
 }
 
 function onSelectedColorChanged(store, area, snapshot) {
@@ -140,6 +140,8 @@ function onSelectedColorChanged(store, area, snapshot) {
 }
 
 function onUsersReceived(store, snapshot) {
+  initalItemsLoaded.users = true // OK for onUserChanged to dispatch now
+
   let usersObject = snapshot.val()
   if (!usersObject) {
     return
@@ -149,8 +151,6 @@ function onUsersReceived(store, snapshot) {
   usersMap.forEach((attributes, playerId) => {
     store.dispatch(receiveUser(playerId, attributes.name, attributes.tableAngle || 0))
   })
-
-  initalItemsLoaded.users = true // OK for onUserChanged to dispatch now
 }
 
 function onUserChanged(store, snapshot) {
