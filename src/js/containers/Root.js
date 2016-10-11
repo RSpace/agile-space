@@ -9,6 +9,7 @@ import GameManager from './GameManager'
 import OverviewManager from './OverviewManager'
 import DevTools from './DevTools'
 import altspace from 'altspace'
+import { isOverview } from '../core'
 
 export default class Root extends Component {
   constructor(props) {
@@ -23,7 +24,7 @@ export default class Root extends Component {
     return (
       <Provider store={this.props.store}>
         <div>
-          { parsedUrl.query['overview'] ? this.renderOverviewManager() : this.renderGameManager() }
+          { isOverview() ? this.renderOverviewManager() : this.renderGameManager() }
           { parsedUrl.query['devtools'] ? this.renderDevTools() : null }
         </div>
       </Provider>

@@ -9,7 +9,6 @@ export default class ResponseCard extends Component {
     let material = {src: `#${this.props.color}-response`, side: 'double', transparent: 'true'}
     let position = this.getPosition()
     let rotation = this.getRotation()
-    let sound    = { src: '#response-sound', on: 'selected' }
 
     return (
       <Entity
@@ -17,7 +16,6 @@ export default class ResponseCard extends Component {
         material={material}
         position={position}
         rotation={rotation}
-        sound={sound}
         onClick={this.onClick.bind(this)}
         ref={(component) => this.domNode = ReactDOM.findDOMNode(component)}
       >
@@ -26,27 +24,8 @@ export default class ResponseCard extends Component {
     )
   }
 
-  componentDidMount () {
-    if (!this.props.isMyCard) {
-      // Another user just selected a response card first time for this area
-      setTimeout(() => {
-        if (this.domNode) {
-          this.domNode.emit('selected')
-        }
-      }, 500)
-    }
-  }
-
-  componentDidUpdate (prevProps, prevState) {
-    if (!this.props.isMyCard && prevProps.color !== this.props.color) {
-      // Another user just changed their response for this area
-      this.domNode.emit('selected')
-    }
-  }
-
   onClick () {
     if (!this.props.isMyCard || this.props.selected) { return }
-    this.domNode.emit('selected')
     this.props.onResponse(this.props.color)
   }
 

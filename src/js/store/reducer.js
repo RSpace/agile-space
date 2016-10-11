@@ -11,7 +11,7 @@ export default function rootReducer(state = INITIAL_STATE, action) {
     case 'SET_RESPONSE':
       return setResponse(state, action.color)
     case 'RECEIVE_RESPONSE':
-      return setResponse(state, action.color, action.playerId, action.area)
+      return setResponse(state, action.color, action.playerId, action.area, action.isUserAction)
     case 'NEXT_AREA':
       if (action.area) {
         return setArea(state, action.area)

@@ -5,6 +5,8 @@ import { getStore } from './store'
 import url from 'url'
 
 let firebaseConnection, firebaseAppInstance
+let initalItemsLoaded = { responses: false, users: false }
+
 function initFirebaseConnection() {
   return new Promise(function(resolve, reject) {
     getInstanceId().then((instanceId) => {
@@ -121,14 +123,20 @@ function onSelectedColorsReceived(store, area, snapshot) {
 
   let responsesMap = new Map(Object.entries(responsesObject))
   responsesMap.forEach((color, playerId) => {
-    store.dispatch(receiveResponse(area, color, playerId))
+    store.dispatch(receiveResponse(area, color, playerId, false))
   })
+
+  initalItemsLoaded.responses = true // OK for onSelectedColorChanged to dispatch now
 }
 
 function onSelectedColorChanged(store, area, snapshot) {
+  if(!initalItemsLoaded.responses) {
+    return // Let onSelectedColorsReceived do it's work first
+  }
+
   let playerId = snapshot.key()
   let color = snapshot.val()
-  store.dispatch(receiveResponse(area, color, playerId))
+  store.dispatch(receiveResponse(area, color, playerId, true))
 }
 
 function onUsersReceived(store, snapshot) {
@@ -141,9 +149,15 @@ function onUsersReceived(store, snapshot) {
   usersMap.forEach((attributes, playerId) => {
     store.dispatch(receiveUser(playerId, attributes.name, attributes.tableAngle || 0))
   })
+
+  initalItemsLoaded.users = true // OK for onUserChanged to dispatch now  
 }
 
 function onUserChanged(store, snapshot) {
+  if(!initalItemsLoaded.users) {
+    return // Let onUsersReceived do it's work first
+  }
+
   let playerId = snapshot.key()
   let attributes = snapshot.val()
   store.dispatch(receiveUser(playerId, attributes.name, attributes.tableAngle))

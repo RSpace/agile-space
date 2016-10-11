@@ -10,8 +10,8 @@ export function setResponse(color) {
   return { type: 'SET_RESPONSE', color }
 }
 
-export function receiveResponse(area, color, playerId) {
-  return { type: 'RECEIVE_RESPONSE', area, color, playerId }
+export function receiveResponse(area, color, playerId, isUserAction) {
+  return { type: 'RECEIVE_RESPONSE', area, color, playerId, isUserAction }
 }
 
 export function nextArea() {

@@ -2,6 +2,8 @@ import { Map, Set, fromJS } from 'immutable'
 import altspace from 'altspace'
 import { saveUser, resetInstanceData } from './store/sync'
 import { getStore } from './store/store'
+import { playResponseSound, playAreaChangeSound } from './helpers/SoundManager'
+import url from 'url'
 
 export const AREAS = [
   'delivering-value',
@@ -64,7 +66,11 @@ export function setFullStateFromSnapshot(state, snapshot) {
   return state.merge(fromJS(snapshot))
 }
 
-export function setResponse(state, color, playerId, givenArea) {
+export function setResponse(state, color, playerId, givenArea, isUserAction) {
+  if (isUserAction) {
+    playResponseSound()
+  }
+  
   let area = givenArea || state.get('currentArea')
   return state.setIn(['areas', area, playerId], color)
 }
@@ -107,6 +113,9 @@ export function setGameState(state, gameState) {
 }
 
 export function setArea(state, area) {
+  if (area && area !== state.get('currentArea')) {
+    playAreaChangeSound()
+  }
   return state.set('currentArea', area)
 }
 
@@ -174,4 +183,9 @@ function keyIn(/*...keys*/) {
 
 export function restartGame() {
   resetInstanceData()
+}
+
+export function isOverview() {
+  let parsedUrl = url.parse(window.location.href, true)
+  return !!parsedUrl.query['overview']
 }
