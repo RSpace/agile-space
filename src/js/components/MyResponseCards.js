@@ -40,9 +40,9 @@ export default class MyResponseCards extends Component {
   }
 
   observeYAngle () {
-    if (this.domNode.attributes.rotation) {
-      let rotation = this.domNode.attributes.rotation.value
-      let yAngle = rotation.split(" ")[1]
+    if (this.domNode) {
+      let rotation = this.domNode.getComputedAttribute('rotation')
+      let yAngle = rotation.y
       if (yAngle && yAngle !== this.lastYAngle) {
         this.lastYAngle = yAngle
         saveTableAngle(yAngle)
