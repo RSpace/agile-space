@@ -2,6 +2,7 @@ import altspace from 'altspace'
 import { setFullStateFromSnapshot, receiveResponse, receiveArea, receiveUser, receiveGameState } from './actions'
 import { getGameState, getCurrentArea, INITIAL_STATE } from '../core'
 import { getStore } from './store'
+import url from 'url'
 
 let firebaseConnection, firebaseAppInstance
 function initFirebaseConnection() {
@@ -27,7 +28,10 @@ function initFirebaseConnection() {
 
 function getInstanceId() {
   return new Promise(function(resolve, reject) {
-    if(altspace.inClient) {
+    let parsedUrl = url.parse(window.location.href, true)
+    if (parsedUrl.query['altspace-sync-instance']) {
+      resolve(parsedUrl.query['altspace-sync-instance'])
+    } else if(altspace.inClient) {
       altspace.getSpace().then((space) => {
         resolve(space.sid)
       })
