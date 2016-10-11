@@ -1,6 +1,6 @@
 import altspace from 'altspace'
 import { setFullStateFromSnapshot, receiveResponse, receiveArea, receiveUser, receiveGameState } from './actions'
-import { getGameState, getCurrentArea, getUsers, INITIAL_STATE } from '../core'
+import { getGameState, getCurrentArea, VALID_GAME_STATES } from '../core'
 import Url from '../lib/url'
 import { Map } from 'immutable'
 
@@ -112,9 +112,11 @@ export function initRead(store) {
 }
 
 export function resetInstanceData() {
-  let usersMap = getUsers()
-  let resetState = INITIAL_STATE.merge({users: usersMap}).toJS()
-  firebaseAppInstance.update(resetState)
+  firebaseAppInstance.update({
+    gameState: VALID_GAME_STATES[0],
+    currentArea: null,
+    areas: {}
+  })
 }
 
 function onSelectedColorsReceived(store, area, snapshot) {

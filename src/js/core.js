@@ -32,14 +32,13 @@ export const AREA_NAMES = {
   'teamwork': 'Teamwork'
 }
 export const COLORS = ['green', 'yellow', 'red']
-const VALID_GAME_STATES = ['intro', 'running', 'ended']
+export const VALID_GAME_STATES = ['intro', 'running', 'ended']
 
 export const INITIAL_STATE = Map({
   gameState: VALID_GAME_STATES[0],
   currentArea: null,
   areas: Map({}),
-  users: Map({}),
-  selectedColor: null
+  users: Map({})
 })
 
 /* {
@@ -98,12 +97,6 @@ export function getNextArea() {
   }
 }
 
-export function getUsers() {
-  let store = getStore()
-  let state = store.getState()
-  return state.get('users')
-}
-
 export function setGameState(state, gameState) {
   if (!VALID_GAME_STATES.includes(gameState)) {
     console.error('Attempted to set invalid game state "' + gameState + '"')
@@ -111,8 +104,12 @@ export function setGameState(state, gameState) {
   }
 
   // Game was reset
-  if (gameState === 'intro' && state.get('gameState') !== 'intro') {
-    return INITIAL_STATE
+  if (gameState === VALID_GAME_STATES[0] && state.get('gameState') !== VALID_GAME_STATES[0]) {
+    return state.merge({
+      gameState: VALID_GAME_STATES[0],
+      currentArea: null,
+      areas: Map({})      
+    })
   } else {
     return state.set('gameState', gameState)
   }
