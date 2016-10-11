@@ -98,6 +98,12 @@ export function getNextArea() {
   }
 }
 
+export function getUsers() {
+  let store = getStore()
+  let state = store.getState()
+  return state.get('users')
+}
+
 export function setGameState(state, gameState) {
   if (!VALID_GAME_STATES.includes(gameState)) {
     console.error('Attempted to set invalid game state "' + gameState + '"')
