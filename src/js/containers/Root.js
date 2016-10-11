@@ -19,11 +19,12 @@ export default class Root extends Component {
   }
 
   render () {
+    let parsedUrl = url.parse(window.location.href, true)
     return (
       <Provider store={this.props.store}>
         <div>
-          { url.parse(window.location.href, true).query['overview'] ? this.renderOverviewManager() : this.renderGameManager() }
-          { this.renderDevTools() }
+          { parsedUrl.query['overview'] ? this.renderOverviewManager() : this.renderGameManager() }
+          { parsedUrl.query['devtools'] ? this.renderDevTools() : null }
         </div>
       </Provider>
     )
@@ -50,13 +51,9 @@ export default class Root extends Component {
   }
 
   renderDevTools () {
-    if ("development" === process.env.NODE_ENV && !altspace.inClient) {
-      return (
-        <DevTools />
-      )
-    } else {
-      return null
-    }
+    return (
+      <DevTools />
+    )
   }
 
   componentDidMount () {
