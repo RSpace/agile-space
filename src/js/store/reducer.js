@@ -2,7 +2,7 @@ import {
   INITIAL_STATE, setFullStateFromSnapshot, setResponse, setArea,
   setUser, setGameState, restartGame
 } from '../core'
-import { saveArea } from './sync'
+import { saveArea, saveGameState } from './sync'
 
 export default function rootReducer(state = INITIAL_STATE, action) {
   switch(action.type) {
@@ -22,7 +22,8 @@ export default function rootReducer(state = INITIAL_STATE, action) {
       return setArea(state, action.area)
     case 'SET_AREA':
       var state = setArea(state, action.area)
-      saveArea(action.area)
+      saveArea(state.get('currentArea'))
+      saveGameState(state.get('gameState'))
       return state
     case 'RECEIVE_USER':
       return setUser(state, action.playerId, action.name, action.tableAngle)

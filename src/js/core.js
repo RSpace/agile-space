@@ -108,7 +108,7 @@ export function setGameState(state, gameState) {
     return state.merge({
       gameState: VALID_GAME_STATES[0],
       currentArea: null,
-      areas: Map({})      
+      areas: Map({})
     })
   } else {
     return state.set('gameState', gameState)
@@ -116,10 +116,15 @@ export function setGameState(state, gameState) {
 }
 
 export function setArea(state, area) {
+  let newState = state
   if (area && area !== state.get('currentArea')) {
     playAreaChangeSound()
+
+    if (area !== null && state.get('gameState') !== 'running') {
+      newState = state.set('gameState', 'running')
+    }
   }
-  return state.set('currentArea', area)
+  return newState.set('currentArea', area)
 }
 
 export function setUser(state, playerId, name, tableAngle) {
