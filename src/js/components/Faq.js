@@ -9,23 +9,23 @@ const FAQ_ITEMS = [
   },
   {
     heading: "Do we need a facilitator?",
-    body: "It is recommended to have a facilitator, preferably from outside the team, to run the activity. This can be especially helpful to get ensure that everyone gets to say something, and to keep the team on track and on time.",
+    body: "It is recommended to have a facilitator, preferably from outside the team, to run the activity. This can be especially helpful to ensure that everyone gets to say something, and to keep the team on track and on time.",
   },
   {
     heading: "What is an area?",
-    body: "An area is a perspective on the work done by the team (ie. quality, fun, value, etc.). The areas where made with a software development team in mind, but can be used for others types of teams.",
+    body: "An area is a perspective on the work done by the team (ie. quality, fun, value, etc.). The areas were made with a software development team in mind, but can be used for other types of teams.",
   },
   {
-    heading: "When should I play a green light?",
-    body: "Nothing is ever perfect, so you can play a green light if you are fairly happy with this area and it does not need to improve anytime soon.",
+    heading: "When should I play a green card?",
+    body: "Nothing is ever perfect, so you can play a green card if you are fairly happy with this area and it does not need to improve anytime soon.",
   },
   {
-    heading: "When should I play a red light?",
-    body: "Play a red light when an area needs immediate improvement seen from your perspective. Be generous with your red lights, the activity is less valuable if everyone plays yellow lights for everything.",
+    heading: "When should I play a red card?",
+    body: "Play a red light when an area needs immediate improvement seen from your perspective. Be generous with your red cards, the activity is less valuable if everyone plays yellow cards for everything.",
   },
   {
-    heading: "When should I play yellow light?",
-    body: "As rarely as possible. Often something is fine as it is, or it should really improved as soon as possible. Only play a yellow light when the area really is in between those two.",
+    heading: "When should I play yellow card?",
+    body: "As rarely as possible. Often something is fine as it is, or it should really be improved as soon as possible. Only play a yellow card when the area really is in between those two.",
   },
   {
     heading: "Can I change my selected card?",
@@ -41,7 +41,7 @@ const FAQ_ITEMS = [
   },
   {
     heading: "Should we be able to see each other's responses?",
-    body: "It varies from team to team what works best, but don't be influenced by what other people play.",
+    body: "It varies from team to team what works best, but don't be influenced by what other people play. Make up your own mind.",
   },
   {
     heading: "Should we take notes?",
