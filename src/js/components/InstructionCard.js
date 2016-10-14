@@ -7,9 +7,9 @@ import ResponseCard from './ResponseCard'
 
 export default class InstructionCard extends Component {
   render () {
-    let geometry = { primitive: 'plane', width: 1.888, height: 2.132 }
+    let geometry = { primitive: 'plane', width: 2.48, height: 2.8 }
     let material = {src: '#intro-overlay', side: 'double', transparent: 'true'}
-    let position = '0 2 0'
+    let position = '0 2.05 0'
 
     return (
       <Entity>
