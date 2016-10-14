@@ -36,13 +36,6 @@ export default class Root extends Component {
       <Scene altspace="usePixelScale: false; verticalAlign: bottom;" vr-mode-ui="enabled: false;">
         <Assets />
 
-        <audio id="response-sound">
-          <source src="sounds/cardup.ogg" type="audio/ogg"></source>
-        </audio>
-        <audio id="area-change-sound">
-          <source src="sounds/crystalglass.ogg"  type="audio/ogg"></source>
-        </audio>
-
         <a-entity position="0 0 3">
           <a-camera><a-cursor></a-cursor></a-camera>
         </a-entity>
